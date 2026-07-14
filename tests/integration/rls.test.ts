@@ -161,3 +161,18 @@ describe('treatment_events RLS (anti-fraud core)', () => {
     expect(auditRows![0].old_data.treatment_type).toBe('extraccion')
   })
 })
+
+describe('documents RLS', () => {
+  it('allows an asistente to record an uploaded document', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+    const { error } = await client.from('documents').insert({
+      patient_id: patients![0].id,
+      storage_path: `${patients![0].id}/test.jpg`,
+      file_type: 'image/jpeg',
+      uploaded_by: userData!.user!.id,
+    })
+    expect(error).toBeNull()
+  })
+})
