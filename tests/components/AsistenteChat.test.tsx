@@ -1,0 +1,50 @@
+import { describe, it, expect, vi, afterEach } from 'vitest'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
+import { AsistenteChat } from '@/components/inicio/AsistenteChat'
+
+afterEach(() => {
+  vi.restoreAllMocks()
+})
+
+describe('AsistenteChat', () => {
+  it('shows the answer after a successful question', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        json: async () => ({ ok: true, answer: 'No tiene alergias registradas.' }),
+      })
+    )
+
+    render(<AsistenteChat />)
+    fireEvent.change(screen.getByLabelText(/pregunta/i), {
+      target: { value: '¿Alergias de Ana?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /enviar/i }))
+
+    expect(screen.getByText(/pensando/i)).toBeInTheDocument()
+
+    await waitFor(() => {
+      expect(screen.getByText('No tiene alergias registradas.')).toBeInTheDocument()
+    })
+    expect(screen.getByText('¿Alergias de Ana?')).toBeInTheDocument()
+  })
+
+  it('shows the error message when the API returns ok: false', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue({
+        json: async () => ({ ok: false, error: 'no se pudo obtener respuesta, intenta de nuevo' }),
+      })
+    )
+
+    render(<AsistenteChat />)
+    fireEvent.change(screen.getByLabelText(/pregunta/i), {
+      target: { value: '¿Alergias de Ana?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /enviar/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText('no se pudo obtener respuesta, intenta de nuevo')).toBeInTheDocument()
+    })
+  })
+})
