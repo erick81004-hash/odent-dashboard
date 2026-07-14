@@ -52,3 +52,42 @@ describe('patients RLS', () => {
     expect(Array.isArray(data)).toBe(true)
   })
 })
+
+describe('treatment_events RLS (anti-fraud core)', () => {
+  it('rejects an asistente inserting a treatment event', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { error } = await client.from('treatment_events').insert({
+      patient_id: patients![0].id,
+      tooth_numbers: [11],
+      treatment_type: 'limpieza',
+      performed_by: patients![0].id,
+    })
+    expect(error).not.toBeNull()
+  })
+
+  it('allows a doctor to insert a treatment event', async () => {
+    const client = await signInAs('doctor-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+    const { error } = await client.from('treatment_events').insert({
+      patient_id: patients![0].id,
+      tooth_numbers: [11],
+      treatment_type: 'limpieza',
+      performed_by: userData!.user!.id,
+    })
+    expect(error).toBeNull()
+  })
+
+  it('rejects a doctor editing an existing treatment event', async () => {
+    const client = await signInAs('doctor-rls-test@odent.test')
+    const { data: events } = await client.from('treatment_events').select('id').limit(1)
+    const { data: updated, error } = await client
+      .from('treatment_events')
+      .update({ notes: 'edited by doctor' })
+      .eq('id', events![0].id)
+      .select()
+    expect(error).toBeNull()
+    expect(updated).toEqual([])
+  })
+})
