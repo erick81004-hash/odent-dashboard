@@ -65,5 +65,21 @@ create trigger treatment_events_audit_update
   before update on public.treatment_events
   for each row execute function public.audit_treatment_event_update();
 
+create or replace function public.audit_treatment_event_delete()
+returns trigger
+language plpgsql
+security definer
+as $$
+begin
+  insert into public.audit_log (table_name, record_id, action, changed_by, old_data, new_data)
+  values ('treatment_events', old.id, 'delete', auth.uid(), to_jsonb(old), null);
+  return old;
+end;
+$$;
+
+create trigger treatment_events_audit_delete
+  before delete on public.treatment_events
+  for each row execute function public.audit_treatment_event_delete();
+
 grant select, insert, update, delete on public.treatment_events to authenticated, service_role;
 grant select on public.audit_log to authenticated, service_role;
