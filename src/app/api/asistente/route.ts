@@ -15,7 +15,20 @@ export async function POST(request: Request) {
     )
   }
 
-  const { question } = await request.json()
+  let question: string
+  try {
+    const body = await request.json()
+    question = body.question
+    if (typeof question !== 'string' || !question.trim()) {
+      throw new Error('invalid question')
+    }
+  } catch {
+    return NextResponse.json(
+      { ok: false, error: 'no se pudo obtener respuesta, intenta de nuevo' },
+      { status: 400 }
+    )
+  }
+
   const webhookUrl = process.env.N8N_ASISTENTE_WEBHOOK_URL!
 
   const result = await askAsistente(question, session.access_token, webhookUrl)

@@ -47,4 +47,19 @@ describe('AsistenteChat', () => {
       expect(screen.getByText('no se pudo obtener respuesta, intenta de nuevo')).toBeInTheDocument()
     })
   })
+
+  it('shows a generic error and clears loading when the fetch itself fails', async () => {
+    vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')))
+
+    render(<AsistenteChat />)
+    fireEvent.change(screen.getByLabelText(/pregunta/i), {
+      target: { value: '¿Alergias de Ana?' },
+    })
+    fireEvent.click(screen.getByRole('button', { name: /enviar/i }))
+
+    await waitFor(() => {
+      expect(screen.getByText('no se pudo obtener respuesta, intenta de nuevo')).toBeInTheDocument()
+    })
+    expect(screen.queryByText(/pensando/i)).not.toBeInTheDocument()
+  })
 })

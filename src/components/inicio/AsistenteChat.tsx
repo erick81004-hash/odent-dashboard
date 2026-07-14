@@ -19,22 +19,34 @@ export function AsistenteChat() {
     setQuestion('')
     setLoading(true)
 
-    const response = await fetch('/api/asistente', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question: currentQuestion }),
-    })
-    const result = await response.json()
+    try {
+      const response = await fetch('/api/asistente', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: currentQuestion }),
+      })
+      const result = await response.json()
 
-    setExchanges((prev) => [
-      ...prev,
-      {
-        question: currentQuestion,
-        answer: result.ok ? result.answer : null,
-        error: result.ok ? null : result.error,
-      },
-    ])
-    setLoading(false)
+      setExchanges((prev) => [
+        ...prev,
+        {
+          question: currentQuestion,
+          answer: result.ok ? result.answer : null,
+          error: result.ok ? null : result.error,
+        },
+      ])
+    } catch {
+      setExchanges((prev) => [
+        ...prev,
+        {
+          question: currentQuestion,
+          answer: null,
+          error: 'no se pudo obtener respuesta, intenta de nuevo',
+        },
+      ])
+    } finally {
+      setLoading(false)
+    }
   }
 
   return (
