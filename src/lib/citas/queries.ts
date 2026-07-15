@@ -63,7 +63,7 @@ export async function getUpcomingAppointmentSummaries(
   const active = citas.filter((c) => c.status !== ('cancelada' as CitaStatus))
   if (active.length === 0) return []
 
-  const patientIds = [...new Set(active.map((c) => c.patient_id))]
+  const patientIds = Array.from(new Set(active.map((c) => c.patient_id)))
   const names = await getPatientNames(client, patientIds)
 
   return active.map((cita) => {
