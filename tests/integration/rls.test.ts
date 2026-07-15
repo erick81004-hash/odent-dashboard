@@ -176,3 +176,46 @@ describe('documents RLS', () => {
     expect(error).toBeNull()
   })
 })
+
+describe('citas RLS', () => {
+  it('allows an asistente to insert a cita', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: doctorProfile } = await client
+      .from('profiles')
+      .select('id')
+      .eq('role', 'doctor')
+      .limit(1)
+    const { data: userData } = await client.auth.getUser()
+
+    const { error } = await client.from('citas').insert({
+      patient_id: patients![0].id,
+      doctor_id: doctorProfile![0].id,
+      starts_at: '2026-08-01T15:00:00.000Z',
+      duration_minutes: 30,
+      reason: 'Cita de prueba RLS',
+      created_by: userData!.user!.id,
+    })
+    expect(error).toBeNull()
+  })
+
+  it('allows a doctor to read citas', async () => {
+    const client = await signInAs('doctor-rls-test@odent.test')
+    const { data, error } = await client.from('citas').select('*')
+    expect(error).toBeNull()
+    expect(Array.isArray(data)).toBe(true)
+  })
+
+  it('allows an asistente to update a cita status', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: existing } = await client.from('citas').select('id').limit(1)
+    const { data: updated, error } = await client
+      .from('citas')
+      .update({ status: 'confirmada' })
+      .eq('id', existing![0].id)
+      .select()
+    expect(error).toBeNull()
+    expect(updated).toHaveLength(1)
+    expect(updated![0].status).toBe('confirmada')
+  })
+})
