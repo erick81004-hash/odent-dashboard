@@ -8,6 +8,12 @@ type Person = { id: string; full_name: string }
 const DURATIONS = [15, 30, 45, 60, 90]
 const STATUS_OPTIONS: CitaStatus[] = ['programada', 'confirmada', 'cancelada', 'completada']
 
+function toLocalDatetimeInputValue(isoString: string): string {
+  const date = new Date(isoString)
+  const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+  return localDate.toISOString().slice(0, 16)
+}
+
 export function CitaForm({
   patients,
   doctors,
@@ -36,7 +42,9 @@ export function CitaForm({
   const [patientId, setPatientId] = useState(existingCita?.patient_id ?? '')
   const [patientQuery, setPatientQuery] = useState(existingPatientName)
   const [doctorId, setDoctorId] = useState(existingCita?.doctor_id ?? doctors[0]?.id ?? '')
-  const [startsAt, setStartsAt] = useState(existingCita ? existingCita.starts_at.slice(0, 16) : initialStartsAt)
+  const [startsAt, setStartsAt] = useState(
+    existingCita ? toLocalDatetimeInputValue(existingCita.starts_at) : initialStartsAt
+  )
   const [duration, setDuration] = useState(existingCita?.duration_minutes ?? 30)
   const [reason, setReason] = useState(existingCita?.reason ?? '')
 

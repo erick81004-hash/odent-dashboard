@@ -66,4 +66,19 @@ describe('CitaForm — edit mode', () => {
     fireEvent.click(screen.getByRole('button', { name: 'confirmada' }))
     expect(onStatusChange).toHaveBeenCalledWith('confirmada')
   })
+
+  it('round-trips starts_at through the datetime-local input without timezone drift', async () => {
+    const onSubmit = vi.fn()
+    render(
+      <CitaForm patients={PATIENTS} doctors={DOCTORS} existingCita={existingCita} onSubmit={onSubmit} />
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: /guardar cita/i }))
+
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(
+        expect.objectContaining({ starts_at: '2026-07-16T10:00:00.000Z' })
+      )
+    })
+  })
 })
