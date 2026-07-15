@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import type { AppointmentSummary } from '@/lib/citas/queries'
 import { UpcomingAppointments } from './UpcomingAppointments'
 import { WhatsAppInbox } from './WhatsAppInbox'
 
@@ -10,7 +11,13 @@ type Exchange = {
   error: string | null
 }
 
-export function AsistenteChat({ name = '' }: { name: string }) {
+export function AsistenteChat({
+  name = '',
+  appointments,
+}: {
+  name: string
+  appointments: AppointmentSummary[]
+}) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
   const [exchanges, setExchanges] = useState<Exchange[]>([])
@@ -99,7 +106,7 @@ export function AsistenteChat({ name = '' }: { name: string }) {
       )}
 
       <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <UpcomingAppointments />
+        <UpcomingAppointments appointments={appointments} />
         <WhatsAppInbox />
       </div>
     </div>
