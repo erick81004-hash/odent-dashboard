@@ -14,6 +14,15 @@ export async function createPatient(
   return data as Patient
 }
 
+export async function updatePatientPhoto(
+  client: SupabaseClient,
+  patientId: string,
+  photoPath: string
+): Promise<void> {
+  const { error } = await client.from('patients').update({ photo_path: photoPath }).eq('id', patientId)
+  if (error) throw error
+}
+
 export async function addTreatmentEvent(
   client: SupabaseClient,
   input: {

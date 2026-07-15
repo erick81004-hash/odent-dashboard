@@ -15,6 +15,7 @@ export type Patient = {
   emergency_contact: string | null
   insurance: string | null
   assigned_doctor_id: string | null
+  photo_path: string | null
   created_at: string
 }
 

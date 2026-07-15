@@ -1,8 +1,8 @@
 const STATUS_COLOR: Record<string, string> = {
-  sano: 'bg-green-100 border-green-400',
-  caries: 'bg-red-100 border-red-400',
-  obturado: 'bg-amber-100 border-amber-400',
-  corona: 'bg-blue-100 border-blue-400',
+  sano: 'bg-muted border-accent',
+  caries: 'bg-red-50 border-destructive',
+  obturado: 'bg-warning-bg border-warning',
+  corona: 'bg-secondary/20 border-primary',
   extraido: 'bg-gray-200 border-gray-400',
 }
 
@@ -23,7 +23,7 @@ export function ToothCell({
       data-testid={`tooth-${tooth}`}
       onClick={() => onSelect(tooth)}
       className={`h-7 w-7 rounded border text-[9px] ${colorClass} ${
-        selected ? 'ring-2 ring-blue-600' : ''
+        selected ? 'ring-2 ring-primary' : ''
       }`}
       aria-label={`Diente ${tooth}, estado ${status}`}
     >

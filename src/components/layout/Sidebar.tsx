@@ -21,8 +21,8 @@ export function Sidebar() {
   }
 
   return (
-    <nav className="flex w-44 shrink-0 flex-col border-r border-gray-200 p-3">
-      <p className="mb-4 px-2 text-sm font-medium">Odent</p>
+    <nav className="flex w-44 shrink-0 flex-col border-r border-border bg-page p-3">
+      <p className="mb-4 px-2 font-heading text-[15px] font-medium text-foreground">Odent</p>
       <div className="flex-1">
         {NAV_ITEMS.map((item) => {
           const isActive =
@@ -31,8 +31,8 @@ export function Sidebar() {
             <Link
               key={item.href}
               href={item.href}
-              className={`block rounded px-2 py-2 text-sm ${
-                isActive ? 'bg-blue-50 text-blue-700' : 'text-gray-600'
+              className={`block rounded-lg px-2 py-2 text-sm ${
+                isActive ? 'bg-primary text-on-primary' : 'text-foreground'
               }`}
             >
               {item.label}
@@ -42,7 +42,7 @@ export function Sidebar() {
       </div>
       <button
         onClick={handleLogout}
-        className="rounded px-2 py-2 text-left text-sm text-gray-600"
+        className="rounded-lg px-2 py-2 text-left text-sm text-foreground"
       >
         Cerrar sesión
       </button>

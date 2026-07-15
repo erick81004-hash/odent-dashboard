@@ -1,23 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@500;600&family=Noto+Sans:wght@400;500&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  --background: #f0fbfa;
+  --foreground: #164e63;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary: #0891b2;
+  --color-on-primary: #ffffff;
+  --color-secondary: #22d3ee;
+  --color-accent: #059669;
+  --color-page: #ecfeff;
+  --color-muted: #e8f1f6;
+  --color-border: #a5f3fc;
+  --color-destructive: #dc2626;
+  --color-warning: #854f0b;
+  --color-warning-bg: #faeeda;
 }
 
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: 'Noto Sans', Arial, Helvetica, sans-serif;
 }
 
 @layer utilities {

@@ -1,10 +1,10 @@
 import { AsistenteChat } from '@/components/inicio/AsistenteChat'
+import { createServerSupabaseClient } from '@/lib/supabase/server'
+import { getCurrentProfile } from '@/lib/auth/profile'
 
-export default function InicioPage() {
-  return (
-    <div>
-      <h1 className="mb-4 text-lg font-medium">Inicio</h1>
-      <AsistenteChat />
-    </div>
-  )
+export default async function InicioPage() {
+  const client = await createServerSupabaseClient()
+  const profile = await getCurrentProfile(client)
+
+  return <AsistenteChat name={profile?.full_name ?? ''} />
 }
