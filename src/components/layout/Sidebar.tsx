@@ -7,6 +7,7 @@ import { createBrowserSupabaseClient } from '@/lib/supabase/client'
 const NAV_ITEMS = [
   { href: '/', label: 'Inicio' },
   { href: '/pacientes', label: 'Pacientes' },
+  { href: '/calendario', label: 'Calendario' },
 ]
 
 export function Sidebar() {
