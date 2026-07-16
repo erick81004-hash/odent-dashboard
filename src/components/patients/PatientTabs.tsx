@@ -5,6 +5,7 @@ const TABS = [
   { key: 'odontograma', label: 'Odontograma' },
   { key: 'historial', label: 'Historial' },
   { key: 'documentos', label: 'Documentos' },
+  { key: 'cobranza', label: 'Cobranza' },
 ] as const
 
 export function PatientTabs({

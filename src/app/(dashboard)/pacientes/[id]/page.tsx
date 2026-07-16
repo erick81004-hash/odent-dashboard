@@ -6,8 +6,10 @@ import { PatientTabs } from '@/components/patients/PatientTabs'
 import { Odontogram } from '@/components/patients/Odontogram'
 import { TreatmentHistoryList } from '@/components/patients/TreatmentHistoryList'
 import { DocumentGallery } from '@/components/patients/DocumentGallery'
+import { listCargosForPatient, listPagosForCargos } from '@/lib/cobranza/queries'
+import { CobranzaClient } from '@/components/cobranza/CobranzaClient'
 
-type Tab = 'datos' | 'odontograma' | 'historial' | 'documentos'
+type Tab = 'datos' | 'odontograma' | 'historial' | 'documentos' | 'cobranza'
 
 export default async function PatientProfilePage({
   params,
@@ -26,6 +28,8 @@ export default async function PatientProfilePage({
 
   const events = await getTreatmentEvents(client, id)
   const documents = await getDocuments(client, id)
+  const cargos = await listCargosForPatient(client, id)
+  const pagosByCargo = await listPagosForCargos(client, cargos.map((c) => c.id))
 
   return (
     <div className="max-w-3xl space-y-4">
@@ -63,6 +67,14 @@ export default async function PatientProfilePage({
       {activeTab === 'odontograma' && <Odontogram patientId={id} events={events} />}
       {activeTab === 'historial' && <TreatmentHistoryList events={events} />}
       {activeTab === 'documentos' && <DocumentGallery patientId={id} documents={documents} />}
+      {activeTab === 'cobranza' && (
+        <CobranzaClient
+          patients={[{ id: patient.id, full_name: patient.full_name }]}
+          cargos={cargos}
+          pagosByCargo={pagosByCargo}
+          fixedPatientId={patient.id}
+        />
+      )}
     </div>
   )
 }
