@@ -4,6 +4,10 @@ import { useState } from 'react'
 import type { AppointmentSummary } from '@/lib/citas/queries'
 import { UpcomingAppointments } from './UpcomingAppointments'
 import { WhatsAppInbox } from './WhatsAppInbox'
+import { QuickActions } from './QuickActions'
+import { StatsCards } from './StatsCards'
+import { MiniCalendarWidget } from './MiniCalendarWidget'
+import { ActivityFeed } from './ActivityFeed'
 
 type Exchange = {
   question: string
@@ -14,9 +18,19 @@ type Exchange = {
 export function AsistenteChat({
   name = '',
   appointments,
+  patientCount,
+  citasPendientesCount,
+  citaCountByDate,
+  ingresosHoy,
+  nowIso,
 }: {
   name: string
   appointments: AppointmentSummary[]
+  patientCount: number
+  citasPendientesCount: number
+  citaCountByDate: Record<string, number>
+  ingresosHoy: number
+  nowIso: string
 }) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
@@ -60,8 +74,10 @@ export function AsistenteChat({
 
   const firstName = name.split(' ')[0]
 
+  const now = new Date(nowIso)
+
   return (
-    <div className="mx-auto max-w-5xl">
+    <div className="mx-auto max-w-6xl">
       <div className="py-4 text-center">
         <h1 className="font-heading text-2xl font-semibold text-foreground md:text-3xl">
           Bienvenido, {firstName}
@@ -105,9 +121,20 @@ export function AsistenteChat({
         </ul>
       )}
 
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <UpcomingAppointments appointments={appointments} />
-        <WhatsAppInbox />
+      <div className="mb-6 space-y-6">
+        <QuickActions />
+        <StatsCards patientCount={patientCount} citasPendientesCount={citasPendientesCount} ingresosHoy={ingresosHoy} />
+      </div>
+
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
+          <UpcomingAppointments appointments={appointments} />
+          <WhatsAppInbox />
+        </div>
+        <div className="space-y-6">
+          <MiniCalendarWidget monthDate={now} citaCountByDate={citaCountByDate} />
+          <ActivityFeed />
+        </div>
       </div>
     </div>
   )

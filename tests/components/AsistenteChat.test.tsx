@@ -15,7 +15,16 @@ describe('AsistenteChat', () => {
       })
     )
 
-    render(<AsistenteChat name="Test User" appointments={[]} />)
+    render(
+      <AsistenteChat
+        name="Test User"
+        appointments={[]}
+        patientCount={0}
+        citasPendientesCount={0}
+        citaCountByDate={{}}
+        ingresosHoy={0}
+        nowIso="2026-07-16T12:00:00.000Z"
+      />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
     })
@@ -37,7 +46,16 @@ describe('AsistenteChat', () => {
       })
     )
 
-    render(<AsistenteChat name="Test User" appointments={[]} />)
+    render(
+      <AsistenteChat
+        name="Test User"
+        appointments={[]}
+        patientCount={0}
+        citasPendientesCount={0}
+        citaCountByDate={{}}
+        ingresosHoy={0}
+        nowIso="2026-07-16T12:00:00.000Z"
+      />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
     })
@@ -51,7 +69,16 @@ describe('AsistenteChat', () => {
   it('shows a generic error and clears loading when the fetch itself fails', async () => {
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new Error('network error')))
 
-    render(<AsistenteChat name="Test User" appointments={[]} />)
+    render(
+      <AsistenteChat
+        name="Test User"
+        appointments={[]}
+        patientCount={0}
+        citasPendientesCount={0}
+        citaCountByDate={{}}
+        ingresosHoy={0}
+        nowIso="2026-07-16T12:00:00.000Z"
+      />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
     })
