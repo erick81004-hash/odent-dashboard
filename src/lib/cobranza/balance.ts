@@ -5,7 +5,7 @@ export function totalPagado(pagos: Pago[]): number {
 }
 
 export function saldoPendiente(montoCargo: number, pagos: Pago[]): number {
-  return montoCargo - totalPagado(pagos)
+  return Math.round((montoCargo - totalPagado(pagos)) * 100) / 100
 }
 
 export type CargoStatus = 'pagado' | 'parcial' | 'pendiente'
