@@ -47,7 +47,7 @@ export async function createCita(
 export async function rescheduleCita(
   client: SupabaseClient,
   citaId: string,
-  input: { doctor_id: string; starts_at: string; duration_minutes: number }
+  input: { patient_id: string; doctor_id: string; starts_at: string; duration_minutes: number; reason: string }
 ): Promise<Cita> {
   const existing = await citasForDayOf(client, input.starts_at)
   const conflict = hasConflict(

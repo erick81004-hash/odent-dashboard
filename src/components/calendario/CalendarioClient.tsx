@@ -21,6 +21,13 @@ function startOfWeek(date: Date): Date {
   return d
 }
 
+export function addMonthsSafely(date: Date, months: number): Date {
+  const result = new Date(date)
+  result.setDate(1)
+  result.setMonth(result.getMonth() + months)
+  return result
+}
+
 function rangeForView(view: ViewMode, date: Date): { start: Date; end: Date } {
   if (view === 'dia') {
     const start = new Date(date)
@@ -62,10 +69,13 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
   }, [reload])
 
   function navigate(direction: 1 | -1) {
+    if (view === 'mes') {
+      setCurrentDate(addMonthsSafely(currentDate, direction))
+      return
+    }
     const next = new Date(currentDate)
     if (view === 'dia') next.setDate(next.getDate() + direction)
-    else if (view === 'semana') next.setDate(next.getDate() + direction * 7)
-    else next.setMonth(next.getMonth() + direction)
+    else next.setDate(next.getDate() + direction * 7)
     setCurrentDate(next)
   }
 
@@ -100,11 +110,7 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
     setFormError(null)
     const client = createBrowserSupabaseClient()
     try {
-      await rescheduleCita(client, formState.cita.id, {
-        doctor_id: input.doctor_id,
-        starts_at: input.starts_at,
-        duration_minutes: input.duration_minutes,
-      })
+      await rescheduleCita(client, formState.cita.id, input)
       setFormState(null)
       await reload()
     } catch (err) {

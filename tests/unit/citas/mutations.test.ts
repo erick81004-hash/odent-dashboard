@@ -82,12 +82,49 @@ describe('rescheduleCita', () => {
     const client = makeInsertClient(makeCita({ id: 'c1', starts_at: '2026-07-16T11:00:00.000Z' }))
 
     const result = await rescheduleCita(client, 'c1', {
+      patient_id: 'p1',
       doctor_id: 'd1',
       starts_at: '2026-07-16T11:00:00.000Z',
       duration_minutes: 30,
+      reason: 'Revisión',
     })
 
     expect(result.id).toBe('c1')
+  })
+
+  it('sends patient_id and reason to update, not just doctor_id/starts_at/duration_minutes', async () => {
+    vi.mocked(listCitasBetween).mockResolvedValue([])
+    let updateArg: any = null
+    const client = {
+      from: () => ({
+        update: (arg: any) => {
+          updateArg = arg
+          return {
+            eq: () => ({
+              select: () => ({
+                single: async () => ({ data: makeCita({ id: 'c1' }), error: null }),
+              }),
+            }),
+          }
+        },
+      }),
+    } as any
+
+    await rescheduleCita(client, 'c1', {
+      patient_id: 'p-new',
+      doctor_id: 'd1',
+      starts_at: '2026-07-16T11:00:00.000Z',
+      duration_minutes: 30,
+      reason: 'Nuevo motivo',
+    })
+
+    expect(updateArg).toEqual({
+      patient_id: 'p-new',
+      doctor_id: 'd1',
+      starts_at: '2026-07-16T11:00:00.000Z',
+      duration_minutes: 30,
+      reason: 'Nuevo motivo',
+    })
   })
 })
 
