@@ -219,3 +219,130 @@ describe('citas RLS', () => {
     expect(updated![0].status).toBe('confirmada')
   })
 })
+
+describe('cargos and pagos RLS (anti-fraud core)', () => {
+  it('allows an asistente to insert a cargo', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+
+    const { error } = await client.from('cargos').insert({
+      patient_id: patients![0].id,
+      concepto: 'Cargo de prueba RLS',
+      monto: 500,
+      created_by: userData!.user!.id,
+    })
+    expect(error).toBeNull()
+  })
+
+  it('allows a doctor to read cargos', async () => {
+    const client = await signInAs('doctor-rls-test@odent.test')
+    const { data, error } = await client.from('cargos').select('*')
+    expect(error).toBeNull()
+    expect(Array.isArray(data)).toBe(true)
+  })
+
+  it('rejects an asistente editing an existing cargo', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: existing } = await client.from('cargos').select('id').limit(1)
+    const { data: updated, error } = await client
+      .from('cargos')
+      .update({ concepto: 'edited by asistente' })
+      .eq('id', existing![0].id)
+      .select()
+    expect(error).toBeNull()
+    expect(updated).toEqual([])
+  })
+
+  it('records an audit_log row when an admin edits a cargo', async () => {
+    const client = await signInAs('admin-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+    const adminId = userData!.user!.id
+
+    const { data: created, error: insertError } = await client
+      .from('cargos')
+      .insert({ patient_id: patients![0].id, concepto: 'Cargo original', monto: 700, created_by: adminId })
+      .select()
+      .single()
+    expect(insertError).toBeNull()
+
+    const { error: updateError } = await client
+      .from('cargos')
+      .update({ concepto: 'Cargo corregido' })
+      .eq('id', created!.id)
+    expect(updateError).toBeNull()
+
+    const { data: auditRows, error: auditError } = await client
+      .from('audit_log')
+      .select('*')
+      .eq('record_id', created!.id)
+      .eq('action', 'update')
+    expect(auditError).toBeNull()
+    expect(auditRows).toHaveLength(1)
+    expect(auditRows![0].changed_by).toBe(adminId)
+    expect(auditRows![0].new_data.concepto).toBe('Cargo corregido')
+  })
+
+  it('allows an asistente to insert a pago and rejects an asistente editing it', async () => {
+    const client = await signInAs('asistente-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+    const userId = userData!.user!.id
+
+    const { data: cargo, error: cargoError } = await client
+      .from('cargos')
+      .insert({ patient_id: patients![0].id, concepto: 'Cargo para pago', monto: 900, created_by: userId })
+      .select()
+      .single()
+    expect(cargoError).toBeNull()
+
+    const { data: pago, error: pagoError } = await client
+      .from('pagos')
+      .insert({ cargo_id: cargo!.id, monto: 300, metodo: 'efectivo', created_by: userId })
+      .select()
+      .single()
+    expect(pagoError).toBeNull()
+
+    const { data: updated, error: updateError } = await client
+      .from('pagos')
+      .update({ monto: 1 })
+      .eq('id', pago!.id)
+      .select()
+    expect(updateError).toBeNull()
+    expect(updated).toEqual([])
+  })
+
+  it('records an audit_log row when an admin deletes a pago', async () => {
+    const client = await signInAs('admin-rls-test@odent.test')
+    const { data: patients } = await client.from('patients').select('id').limit(1)
+    const { data: userData } = await client.auth.getUser()
+    const adminId = userData!.user!.id
+
+    const { data: cargo, error: cargoError } = await client
+      .from('cargos')
+      .insert({ patient_id: patients![0].id, concepto: 'Cargo para borrar pago', monto: 900, created_by: adminId })
+      .select()
+      .single()
+    expect(cargoError).toBeNull()
+
+    const { data: pago, error: pagoError } = await client
+      .from('pagos')
+      .insert({ cargo_id: cargo!.id, monto: 300, metodo: 'transferencia', created_by: adminId })
+      .select()
+      .single()
+    expect(pagoError).toBeNull()
+
+    const { error: deleteError } = await client.from('pagos').delete().eq('id', pago!.id)
+    expect(deleteError).toBeNull()
+
+    const { data: auditRows, error: auditError } = await client
+      .from('audit_log')
+      .select('*')
+      .eq('record_id', pago!.id)
+      .eq('action', 'delete')
+    expect(auditError).toBeNull()
+    expect(auditRows).toHaveLength(1)
+    expect(auditRows![0].old_data.monto).toBe(300)
+  })
+})
