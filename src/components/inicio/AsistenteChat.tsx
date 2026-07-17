@@ -42,6 +42,10 @@ export function AsistenteChat({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     const currentQuestion = question
+    const history = exchanges
+      .filter((ex) => ex.answer !== null)
+      .slice(-3)
+      .map((ex) => ({ question: ex.question, answer: ex.answer as string }))
     setQuestion('')
     setLoading(true)
 
@@ -49,7 +53,7 @@ export function AsistenteChat({
       const response = await fetch('/api/asistente', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ question: currentQuestion }),
+        body: JSON.stringify({ question: currentQuestion, history }),
       })
       const result = await response.json()
 

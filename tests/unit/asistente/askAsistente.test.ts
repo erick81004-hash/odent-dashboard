@@ -11,6 +11,7 @@ describe('askAsistente', () => {
       '¿alergias de Ana?',
       'token-123',
       'https://n8n.example.com/webhook/asistente',
+      [],
       fetchImpl as unknown as typeof fetch
     )
     expect(result).toEqual({ ok: true, answer: 'El paciente no tiene alergias registradas.' })
@@ -18,7 +19,7 @@ describe('askAsistente', () => {
       'https://n8n.example.com/webhook/asistente',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ question: '¿alergias de Ana?', accessToken: 'token-123' }),
+        body: JSON.stringify({ question: '¿alergias de Ana?', accessToken: 'token-123', history: [] }),
       })
     )
   })
@@ -29,6 +30,7 @@ describe('askAsistente', () => {
       '¿alergias de Ana?',
       'token-123',
       'https://n8n.example.com/webhook/asistente',
+      [],
       fetchImpl as unknown as typeof fetch
     )
     expect(result).toEqual({ ok: false, error: 'no se pudo obtener respuesta, intenta de nuevo' })
@@ -40,6 +42,7 @@ describe('askAsistente', () => {
       '¿alergias de Ana?',
       'token-123',
       'https://n8n.example.com/webhook/asistente',
+      [],
       fetchImpl as unknown as typeof fetch
     )
     expect(result).toEqual({ ok: false, error: 'no se pudo obtener respuesta, intenta de nuevo' })

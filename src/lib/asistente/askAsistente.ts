@@ -9,6 +9,7 @@ export async function askAsistente(
   question: string,
   accessToken: string,
   webhookUrl: string,
+  history: { question: string; answer: string }[] = [],
   fetchImpl: typeof fetch = fetch
 ): Promise<AsistenteResult> {
   const controller = new AbortController()
@@ -18,7 +19,7 @@ export async function askAsistente(
     const response = await fetchImpl(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question, accessToken }),
+      body: JSON.stringify({ question, accessToken, history }),
       signal: controller.signal,
     })
 
