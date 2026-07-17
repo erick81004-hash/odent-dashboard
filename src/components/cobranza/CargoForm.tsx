@@ -1,8 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { normalizeForSearch } from '@/lib/utils/normalize'
 
 type Person = { id: string; full_name: string }
+
+const CONCEPTOS = ['Limpieza dental', 'Extracción', 'Ortodoncia', 'Endodoncia', 'Consulta']
 
 export function CargoForm({
   patients,
@@ -24,12 +27,13 @@ export function CargoForm({
 
   const matches =
     !fixedPatientId && patientQuery && !patientId
-      ? patients.filter((p) => p.full_name.toLowerCase().includes(patientQuery.toLowerCase()))
+      ? patients.filter((p) => normalizeForSearch(p.full_name).includes(normalizeForSearch(patientQuery)))
       : []
 
   return (
     <form
       className="space-y-3"
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onSubmit({ patient_id: patientId, concepto, monto: Number(monto) })
@@ -71,18 +75,27 @@ export function CargoForm({
       )}
       <label className="block text-sm">
         Concepto
-        <input
+        <select
           className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
           value={concepto}
           onChange={(e) => setConcepto(e.target.value)}
-        />
+        >
+          <option value="" disabled>
+            Selecciona un concepto
+          </option>
+          {CONCEPTOS.map((option) => (
+            <option key={option} value={option}>
+              {option}
+            </option>
+          ))}
+        </select>
       </label>
       <label className="block text-sm">
         Monto
         <input
           type="number"
-          min="0.01"
-          step="0.01"
+          min="0"
+          step="50"
           className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}

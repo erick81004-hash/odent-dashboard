@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import type { Cita, CitaStatus } from '@/lib/citas/types'
+import type { Patient } from '@/lib/patients/types'
+import { PatientForm } from '../patients/PatientForm'
+import { normalizeForSearch } from '@/lib/utils/normalize'
 
 type Person = { id: string; full_name: string }
 
@@ -21,6 +24,7 @@ export function CitaForm({
   existingCita,
   onSubmit,
   onStatusChange,
+  onCreatePatient,
   error,
 }: {
   patients: Person[]
@@ -35,12 +39,14 @@ export function CitaForm({
     reason: string
   }) => void
   onStatusChange?: (status: CitaStatus) => void
+  onCreatePatient?: (input: Partial<Patient>, photoFile: File | null) => Promise<Person>
   error?: string | null
 }) {
   const existingPatientName = patients.find((p) => p.id === existingCita?.patient_id)?.full_name ?? ''
 
   const [patientId, setPatientId] = useState(existingCita?.patient_id ?? '')
   const [patientQuery, setPatientQuery] = useState(existingPatientName)
+  const [creatingPatient, setCreatingPatient] = useState(false)
   const [doctorId, setDoctorId] = useState(existingCita?.doctor_id ?? doctors[0]?.id ?? '')
   const [startsAt, setStartsAt] = useState(
     existingCita ? toLocalDatetimeInputValue(existingCita.starts_at) : initialStartsAt
@@ -50,8 +56,30 @@ export function CitaForm({
 
   const matches =
     patientQuery && !patientId
-      ? patients.filter((p) => p.full_name.toLowerCase().includes(patientQuery.toLowerCase()))
+      ? patients.filter((p) => normalizeForSearch(p.full_name).includes(normalizeForSearch(patientQuery)))
       : []
+
+  if (creatingPatient) {
+    return (
+      <div className="space-y-2 rounded border border-gray-200 p-3">
+        <div className="flex items-center justify-between">
+          <p className="text-sm font-medium">Nuevo paciente</p>
+          <button type="button" className="text-sm text-gray-500" onClick={() => setCreatingPatient(false)}>
+            Cancelar
+          </button>
+        </div>
+        <PatientForm
+          onSubmit={async (input, photoFile) => {
+            if (!onCreatePatient) return
+            const newPatient = await onCreatePatient(input, photoFile)
+            setPatientId(newPatient.id)
+            setPatientQuery(newPatient.full_name)
+            setCreatingPatient(false)
+          }}
+        />
+      </div>
+    )
+  }
 
   return (
     <form
@@ -69,15 +97,26 @@ export function CitaForm({
     >
       <label className="block text-sm">
         Paciente
-        <input
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
-          value={patientQuery}
-          placeholder="Buscar paciente por nombre"
-          onChange={(e) => {
-            setPatientQuery(e.target.value)
-            setPatientId('')
-          }}
-        />
+        <div className="mt-1 flex gap-2">
+          <input
+            className="block w-full rounded border border-gray-300 px-2 py-1"
+            value={patientQuery}
+            placeholder="Buscar paciente por nombre"
+            onChange={(e) => {
+              setPatientQuery(e.target.value)
+              setPatientId('')
+            }}
+          />
+          {onCreatePatient && (
+            <button
+              type="button"
+              className="shrink-0 whitespace-nowrap rounded border border-gray-400 px-2 py-1 text-xs"
+              onClick={() => setCreatingPatient(true)}
+            >
+              + Nuevo paciente
+            </button>
+          )}
+        </div>
         {matches.length > 0 && (
           <ul className="mt-1 max-h-40 overflow-y-auto rounded border border-gray-200">
             {matches.map((p) => (

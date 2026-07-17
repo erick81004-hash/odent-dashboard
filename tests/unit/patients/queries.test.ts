@@ -53,6 +53,26 @@ describe('listPatients', () => {
     expect(result[0].full_name).toBe('Ana Silva')
     expect(result[1].full_name).toBe('Anabel Martinez')
   })
+
+  it('matches names regardless of missing accents in the search term', async () => {
+    const client = makeFakeClient({
+      patients: [
+        { id: 'p1', full_name: 'José Núñez' },
+        { id: 'p2', full_name: 'María López' },
+      ],
+    })
+    const result = await listPatients(client, 'jose nunez')
+    expect(result).toHaveLength(1)
+    expect(result[0].full_name).toBe('José Núñez')
+  })
+
+  it('matches names when the search term has accents the stored name does not', async () => {
+    const client = makeFakeClient({
+      patients: [{ id: 'p1', full_name: 'Maria Lopez' }],
+    })
+    const result = await listPatients(client, 'María')
+    expect(result).toHaveLength(1)
+  })
 })
 
 describe('getPatientById', () => {

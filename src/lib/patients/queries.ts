@@ -1,15 +1,17 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
 import type { Patient, TreatmentEvent, PatientDocument } from './types'
+import { normalizeForSearch } from '../utils/normalize'
 
 export async function listPatients(
   client: SupabaseClient,
   search?: string
 ): Promise<Patient[]> {
-  const base = client.from('patients').select('*')
-  const query = search ? base.ilike('full_name', `%${search}%`) : base
-  const { data, error } = await query.order('full_name')
+  const { data, error } = await client.from('patients').select('*').order('full_name')
   if (error) throw error
-  return data as Patient[]
+  const patients = data as Patient[]
+  if (!search) return patients
+  const query = normalizeForSearch(search)
+  return patients.filter((p) => normalizeForSearch(p.full_name).includes(query))
 }
 
 export async function getPatientById(
@@ -49,6 +51,30 @@ export async function getDocuments(
     .order('uploaded_at')
   if (error) throw error
   return data as PatientDocument[]
+}
+
+export async function getDocumentUrls(
+  client: SupabaseClient,
+  documents: PatientDocument[]
+): Promise<Record<string, string>> {
+  if (documents.length === 0) return {}
+  const { data, error } = await client.storage
+    .from('patient-documents')
+    .createSignedUrls(
+      documents.map((d) => d.storage_path),
+      3600
+    )
+  if (error) throw error
+  const urlByPath: Record<string, string> = {}
+  for (const entry of data) {
+    if (entry.signedUrl) urlByPath[entry.path ?? ''] = entry.signedUrl
+  }
+  const urlByDocId: Record<string, string> = {}
+  for (const doc of documents) {
+    const url = urlByPath[doc.storage_path]
+    if (url) urlByDocId[doc.id] = url
+  }
+  return urlByDocId
 }
 
 export type TreatmentSummary = { count: number; lastType: string | null; lastDate: string | null }

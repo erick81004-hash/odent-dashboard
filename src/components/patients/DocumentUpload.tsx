@@ -35,6 +35,7 @@ export function DocumentUpload({ patientId }: { patientId: string }) {
       patient_id: patientId,
       storage_path: path,
       file_type: file.type,
+      display_name: file.name,
       uploaded_by: userData.user.id,
     })
     if (insertError) {

@@ -8,6 +8,7 @@ import { CargoForm } from './CargoForm'
 import { PagoForm } from './PagoForm'
 import { CargoList } from './CargoList'
 import { saldoPendiente } from '@/lib/cobranza/balance'
+import { normalizeForSearch } from '@/lib/utils/normalize'
 
 type Person = { id: string; full_name: string }
 type ModalState = { mode: 'nuevo-cargo' } | { mode: 'nuevo-pago'; cargo: Cargo } | null
@@ -27,8 +28,22 @@ export function CobranzaClient({
 }) {
   const [cargos, setCargos] = useState(initialCargos)
   const [pagosByCargo, setPagosByCargo] = useState(initialPagos)
+  const [patientNamesState, setPatientNamesState] = useState(patientNames ?? {})
   const [modal, setModal] = useState<ModalState>(null)
   const [error, setError] = useState<string | null>(null)
+  const [filterQuery, setFilterQuery] = useState('')
+
+  const query = normalizeForSearch(filterQuery.trim())
+  const filteredCargos = query
+    ? cargos.filter((cargo) => {
+        const patientName = patientNamesState[cargo.patient_id] ?? ''
+        return (
+          normalizeForSearch(cargo.concepto).includes(query) ||
+          normalizeForSearch(patientName).includes(query) ||
+          cargo.monto.toString().includes(query)
+        )
+      })
+    : cargos
 
   async function handleCrearCargo(input: { patient_id: string; concepto: string; monto: number }) {
     setError(null)
@@ -38,6 +53,12 @@ export function CobranzaClient({
     try {
       const cargo = await crearCargo(client, { ...input, created_by: userData.user.id })
       setCargos((prev) => [cargo, ...prev])
+      if (patientNames && !patientNames[cargo.patient_id]) {
+        const patient = patients.find((p) => p.id === cargo.patient_id)
+        if (patient) {
+          setPatientNamesState((prev) => ({ ...prev, [cargo.patient_id]: patient.full_name }))
+        }
+      }
       setModal(null)
     } catch {
       setError('No se pudo guardar el cargo. Intenta de nuevo.')
@@ -55,6 +76,7 @@ export function CobranzaClient({
     try {
       const pago = await registrarPago(client, cargo, pagosExistentes, { ...input, created_by: userData.user.id })
       setPagosByCargo((prev) => ({ ...prev, [cargo.id]: [...(prev[cargo.id] ?? []), pago] }))
+      setCargos((prev) => [cargo, ...prev.filter((c) => c.id !== cargo.id)])
       setModal(null)
     } catch (err) {
       setError(err instanceof PagoExcedeSaldoError ? err.message : 'No se pudo registrar el pago. Intenta de nuevo.')
@@ -63,20 +85,27 @@ export function CobranzaClient({
 
   return (
     <div className="space-y-4">
-      <div className="flex justify-end">
+      <div className="flex items-center justify-between gap-3">
+        <input
+          type="text"
+          value={filterQuery}
+          onChange={(e) => setFilterQuery(e.target.value)}
+          placeholder="Buscar por paciente, concepto o monto"
+          className="w-full max-w-sm rounded border border-gray-300 px-2 py-1 text-sm"
+        />
         <button
           type="button"
           onClick={() => setModal({ mode: 'nuevo-cargo' })}
-          className="rounded border border-gray-400 px-3 py-1 text-sm"
+          className="shrink-0 rounded border border-gray-400 px-3 py-1 text-sm"
         >
           Nuevo cargo
         </button>
       </div>
 
       <CargoList
-        cargos={cargos}
+        cargos={filteredCargos}
         pagosByCargo={pagosByCargo}
-        patientNames={patientNames}
+        patientNames={patientNames ? patientNamesState : undefined}
         onCargoClick={(cargo) => setModal({ mode: 'nuevo-pago', cargo })}
       />
 

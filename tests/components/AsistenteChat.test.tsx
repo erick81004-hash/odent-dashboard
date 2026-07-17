@@ -19,11 +19,12 @@ describe('AsistenteChat', () => {
       <AsistenteChat
         name="Test User"
         appointments={[]}
-        patientCount={0}
+        newPatientsCount={0}
         citasPendientesCount={0}
         citaCountByDate={{}}
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
+        activityItems={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
@@ -50,11 +51,12 @@ describe('AsistenteChat', () => {
       <AsistenteChat
         name="Test User"
         appointments={[]}
-        patientCount={0}
+        newPatientsCount={0}
         citasPendientesCount={0}
         citaCountByDate={{}}
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
+        activityItems={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
@@ -73,11 +75,12 @@ describe('AsistenteChat', () => {
       <AsistenteChat
         name="Test User"
         appointments={[]}
-        patientCount={0}
+        newPatientsCount={0}
         citasPendientesCount={0}
         citaCountByDate={{}}
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
+        activityItems={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },

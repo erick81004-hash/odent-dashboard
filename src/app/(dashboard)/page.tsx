@@ -4,6 +4,7 @@ import { getCurrentProfile } from '@/lib/auth/profile'
 import { getUpcomingAppointmentSummaries, listCitasBetween } from '@/lib/citas/queries'
 import { listPatients } from '@/lib/patients/queries'
 import { getIngresosHoy } from '@/lib/cobranza/queries'
+import { getRecentActivity } from '@/lib/inicio/activity'
 
 export default async function InicioPage() {
   const client = await createServerSupabaseClient()
@@ -13,11 +14,12 @@ export default async function InicioPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1)
 
-  const [appointments, patients, monthCitas, ingresosHoy] = await Promise.all([
+  const [appointments, patients, monthCitas, ingresosHoy, activityItems] = await Promise.all([
     getUpcomingAppointmentSummaries(client, now),
     listPatients(client),
     listCitasBetween(client, monthStart.toISOString(), monthEnd.toISOString()),
     getIngresosHoy(client, now),
+    getRecentActivity(client, now),
   ])
 
   const citaCountByDate: Record<string, number> = {}
@@ -27,19 +29,29 @@ export default async function InicioPage() {
     citaCountByDate[key] = (citaCountByDate[key] ?? 0) + 1
   }
 
+  const todayEnd = new Date(now)
+  todayEnd.setHours(23, 59, 59, 999)
   const citasPendientesCount = monthCitas.filter(
-    (c) => (c.status === 'programada' || c.status === 'confirmada') && new Date(c.starts_at) >= now
+    (c) =>
+      (c.status === 'programada' || c.status === 'confirmada') &&
+      new Date(c.starts_at) >= now &&
+      new Date(c.starts_at) <= todayEnd
   ).length
+
+  const thirtyDaysAgo = new Date(now)
+  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+  const newPatientsCount = patients.filter((p) => new Date(p.created_at) >= thirtyDaysAgo).length
 
   return (
     <AsistenteChat
       name={profile?.full_name ?? ''}
       appointments={appointments}
-      patientCount={patients.length}
+      newPatientsCount={newPatientsCount}
       citasPendientesCount={citasPendientesCount}
       citaCountByDate={citaCountByDate}
       ingresosHoy={ingresosHoy}
       nowIso={now.toISOString()}
+      activityItems={activityItems}
     />
   )
 }

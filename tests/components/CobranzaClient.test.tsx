@@ -68,7 +68,7 @@ describe('CobranzaClient', () => {
     const cargo = makeCargo({})
     render(<CobranzaClient patients={PATIENTS} cargos={[cargo]} pagosByCargo={{}} />)
 
-    fireEvent.click(screen.getByText('Limpieza dental'))
+    fireEvent.click(screen.getByRole('button', { name: /cobrar/i }))
     fireEvent.change(screen.getByLabelText(/monto/i), { target: { value: '300' } })
     fireEvent.click(screen.getByRole('button', { name: /registrar pago/i }))
 

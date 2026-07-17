@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import type { AppointmentSummary } from '@/lib/citas/queries'
+import type { ActivityItem } from '@/lib/inicio/activity'
 import { UpcomingAppointments } from './UpcomingAppointments'
 import { WhatsAppInbox } from './WhatsAppInbox'
 import { QuickActions } from './QuickActions'
@@ -18,19 +19,21 @@ type Exchange = {
 export function AsistenteChat({
   name = '',
   appointments,
-  patientCount,
+  newPatientsCount,
   citasPendientesCount,
   citaCountByDate,
   ingresosHoy,
   nowIso,
+  activityItems,
 }: {
   name: string
   appointments: AppointmentSummary[]
-  patientCount: number
+  newPatientsCount: number
   citasPendientesCount: number
   citaCountByDate: Record<string, number>
   ingresosHoy: number
   nowIso: string
+  activityItems: ActivityItem[]
 }) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
@@ -123,7 +126,7 @@ export function AsistenteChat({
 
       <div className="mb-6 space-y-6">
         <QuickActions />
-        <StatsCards patientCount={patientCount} citasPendientesCount={citasPendientesCount} ingresosHoy={ingresosHoy} />
+        <StatsCards newPatientsCount={newPatientsCount} citasPendientesCount={citasPendientesCount} ingresosHoy={ingresosHoy} />
       </div>
 
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
@@ -133,7 +136,7 @@ export function AsistenteChat({
         </div>
         <div className="space-y-6">
           <MiniCalendarWidget monthDate={now} citaCountByDate={citaCountByDate} />
-          <ActivityFeed />
+          <ActivityFeed items={activityItems} />
         </div>
       </div>
     </div>

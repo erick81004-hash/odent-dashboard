@@ -56,7 +56,7 @@ describe('CargoList', () => {
     const cargo = makeCargo({})
     render(<CargoList cargos={[cargo]} pagosByCargo={{}} onCargoClick={onCargoClick} />)
 
-    fireEvent.click(screen.getByText('Limpieza dental'))
+    fireEvent.click(screen.getByRole('button', { name: /cobrar/i }))
     expect(onCargoClick).toHaveBeenCalledWith(cargo)
   })
 })

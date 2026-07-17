@@ -12,7 +12,8 @@ export type Patient = {
   medical_conditions: string | null
   current_medications: string | null
   blood_type: string | null
-  emergency_contact: string | null
+  emergency_contact_phone: string | null
+  emergency_contact_relationship: string | null
   insurance: string | null
   assigned_doctor_id: string | null
   photo_path: string | null
@@ -38,6 +39,7 @@ export type PatientDocument = {
   treatment_event_id: string | null
   storage_path: string
   file_type: string
+  display_name: string | null
   uploaded_by: string
   uploaded_at: string
 }

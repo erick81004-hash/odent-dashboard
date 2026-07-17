@@ -36,6 +36,42 @@ describe('CitaForm — create mode', () => {
     render(<CitaForm patients={PATIENTS} doctors={DOCTORS} onSubmit={vi.fn()} />)
     expect(screen.getByRole('button', { name: /guardar cita/i })).toBeDisabled()
   })
+
+  it('does not show the new-patient button when onCreatePatient is not provided', () => {
+    render(<CitaForm patients={PATIENTS} doctors={DOCTORS} onSubmit={vi.fn()} />)
+    expect(screen.queryByRole('button', { name: /nuevo paciente/i })).not.toBeInTheDocument()
+  })
+
+  it('creates a patient inline and selects them when onCreatePatient is provided', async () => {
+    const onCreatePatient = vi.fn().mockResolvedValue({ id: 'p3', full_name: 'Carlos Nuevo' })
+    const onSubmit = vi.fn()
+    render(
+      <CitaForm
+        patients={PATIENTS}
+        doctors={DOCTORS}
+        initialStartsAt="2026-07-16T10:00"
+        onSubmit={onSubmit}
+        onCreatePatient={onCreatePatient}
+      />
+    )
+
+    fireEvent.click(screen.getByRole('button', { name: /nuevo paciente/i }))
+    fireEvent.change(screen.getByLabelText(/nombre completo/i), { target: { value: 'Carlos Nuevo' } })
+    fireEvent.click(screen.getByRole('button', { name: /guardar paciente/i }))
+
+    await waitFor(() => {
+      expect(onCreatePatient).toHaveBeenCalledWith(
+        { full_name: 'Carlos Nuevo', phone: '', allergies: null },
+        null
+      )
+    })
+
+    // back on the cita form, with the new patient selected
+    fireEvent.click(screen.getByRole('button', { name: /guardar cita/i }))
+    await waitFor(() => {
+      expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ patient_id: 'p3' }))
+    })
+  })
 })
 
 describe('CitaForm — edit mode', () => {

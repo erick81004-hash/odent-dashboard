@@ -24,6 +24,7 @@ export function PagoForm({
   return (
     <form
       className="space-y-3"
+      noValidate
       onSubmit={(e) => {
         e.preventDefault()
         onSubmit({ monto: montoNumber, metodo, nota: nota.trim() ? nota : null })
@@ -36,8 +37,8 @@ export function PagoForm({
         Monto
         <input
           type="number"
-          min="0.01"
-          step="0.01"
+          min="0"
+          step="50"
           className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}

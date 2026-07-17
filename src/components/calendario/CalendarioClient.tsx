@@ -4,7 +4,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { createBrowserSupabaseClient } from '@/lib/supabase/client'
 import { listCitasBetween } from '@/lib/citas/queries'
 import { createCita, rescheduleCita, updateCitaStatus, CitaConflictError } from '@/lib/citas/mutations'
+import { createPatient, updatePatientPhoto } from '@/lib/patients/mutations'
 import type { Cita, CitaStatus } from '@/lib/citas/types'
+import type { Patient } from '@/lib/patients/types'
 import { DayView } from './DayView'
 import { WeekView } from './WeekView'
 import { MonthView } from './MonthView'
@@ -26,6 +28,28 @@ export function addMonthsSafely(date: Date, months: number): Date {
   result.setDate(1)
   result.setMonth(result.getMonth() + months)
   return result
+}
+
+const DAY_LABEL_FORMATTER = new Intl.DateTimeFormat('es-MX', {
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+})
+const MONTH_LABEL_FORMATTER = new Intl.DateTimeFormat('es-MX', { month: 'long', year: 'numeric' })
+const WEEKDAY_DAY_FORMATTER = new Intl.DateTimeFormat('es-MX', { day: 'numeric', month: 'short' })
+
+function capitalize(text: string): string {
+  return text.charAt(0).toUpperCase() + text.slice(1)
+}
+
+function labelForView(view: ViewMode, date: Date): string {
+  if (view === 'dia') return capitalize(DAY_LABEL_FORMATTER.format(date))
+  if (view === 'mes') return capitalize(MONTH_LABEL_FORMATTER.format(date))
+  const start = startOfWeek(date)
+  const end = new Date(start)
+  end.setDate(end.getDate() + 6)
+  return `${WEEKDAY_DAY_FORMATTER.format(start)} – ${WEEKDAY_DAY_FORMATTER.format(end)}, ${end.getFullYear()}`
 }
 
 function rangeForView(view: ViewMode, date: Date): { start: Date; end: Date } {
@@ -53,9 +77,24 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
   const [citas, setCitas] = useState<Cita[]>([])
   const [formState, setFormState] = useState<FormState>(null)
   const [formError, setFormError] = useState<string | null>(null)
+  const [patientList, setPatientList] = useState(patients)
 
   const patientNames: Record<string, string> = {}
-  for (const p of patients) patientNames[p.id] = p.full_name
+  for (const p of patientList) patientNames[p.id] = p.full_name
+
+  async function handleCreatePatient(input: Partial<Patient>, photoFile: File | null): Promise<Person> {
+    const client = createBrowserSupabaseClient()
+    const patient = await createPatient(client, input)
+    if (photoFile) {
+      const path = `${patient.id}/${Date.now()}-${photoFile.name}`
+      const { error: uploadError } = await client.storage.from('patient-photos').upload(path, photoFile)
+      if (!uploadError) {
+        await updatePatientPhoto(client, patient.id, path)
+      }
+    }
+    setPatientList((prev) => [...prev, { id: patient.id, full_name: patient.full_name }])
+    return { id: patient.id, full_name: patient.full_name }
+  }
 
   const reload = useCallback(async () => {
     const client = createBrowserSupabaseClient()
@@ -143,6 +182,7 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
             </button>
           ))}
         </div>
+        <p className="font-heading text-sm font-semibold text-foreground">{labelForView(view, currentDate)}</p>
         <div className="flex items-center gap-2">
           <button type="button" onClick={() => navigate(-1)} aria-label="Anterior" className="px-2">
             ‹
@@ -202,8 +242,9 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
               </button>
             </div>
             <CitaForm
-              patients={patients}
+              patients={patientList}
               doctors={doctors}
+              onCreatePatient={handleCreatePatient}
               initialStartsAt={
                 formState.mode === 'create'
                   ? new Date(formState.startsAt.getTime() - formState.startsAt.getTimezoneOffset() * 60000)
