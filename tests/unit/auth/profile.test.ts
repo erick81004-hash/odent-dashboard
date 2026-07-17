@@ -3,7 +3,7 @@ import { getCurrentProfile } from '@/lib/auth/profile'
 
 function makeFakeClient(user: { id: string } | null, profile: any) {
   return {
-    auth: { getUser: async () => ({ data: { user } }) },
+    auth: { getSession: async () => ({ data: { session: user ? { user } : null } }) },
     from: () => ({
       select: () => ({
         eq: () => ({
