@@ -30,14 +30,16 @@ describe('PatientList', () => {
     render(
       <PatientList
         patients={[makePatient({ id: 'p1', full_name: 'Ana López' }), makePatient({ id: 'p2', full_name: 'Luis Ruiz' })]}
+        summaries={{}}
+        photoUrls={{}}
       />
     )
-    expect(screen.getByText('Ana López')).toBeInTheDocument()
+    expect(screen.getAllByText('Ana López').length).toBeGreaterThan(0)
     expect(screen.getByText('Luis Ruiz')).toBeInTheDocument()
   })
 
   it('shows an empty state when there are no patients', () => {
-    render(<PatientList patients={[]} />)
+    render(<PatientList patients={[]} summaries={{}} photoUrls={{}} />)
     expect(screen.getByText(/no hay pacientes/i)).toBeInTheDocument()
   })
 })

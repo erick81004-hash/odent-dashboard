@@ -12,7 +12,7 @@ describe('PatientForm', () => {
     })
     fireEvent.click(screen.getByRole('button', { name: /guardar/i }))
 
-    expect(onSubmit).toHaveBeenCalledWith(
+    expect(onSubmit.mock.calls[0][0]).toEqual(
       expect.objectContaining({ full_name: 'María González' })
     )
   })
