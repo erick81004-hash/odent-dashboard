@@ -29,7 +29,7 @@ export function MonthView({
   return (
     <div className="grid grid-cols-7 gap-1">
       {days.map((day) => {
-        const dayCitas = citas.filter((c) => sameDay(new Date(c.starts_at), day))
+        const dayCitas = citas.filter((c) => c.status !== 'cancelada' && sameDay(new Date(c.starts_at), day))
         const isCurrentMonth = day.getMonth() === monthDate.getMonth()
         return (
           <button
