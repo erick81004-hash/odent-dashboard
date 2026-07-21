@@ -5,6 +5,7 @@ import { getUpcomingAppointmentSummaries, listCitasBetween } from '@/lib/citas/q
 import { listPatients } from '@/lib/patients/queries'
 import { getIngresosHoy } from '@/lib/cobranza/queries'
 import { getRecentActivity } from '@/lib/inicio/activity'
+import { getRecentWhatsAppConversations } from '@/lib/inicio/whatsapp'
 
 export default async function InicioPage() {
   const client = await createServerSupabaseClient()
@@ -14,12 +15,13 @@ export default async function InicioPage() {
   const monthStart = new Date(now.getFullYear(), now.getMonth(), 1)
   const monthEnd = new Date(now.getFullYear(), now.getMonth() + 1, 1)
 
-  const [appointments, patients, monthCitas, ingresosHoy, activityItems] = await Promise.all([
+  const [appointments, patients, monthCitas, ingresosHoy, activityItems, whatsappConversations] = await Promise.all([
     getUpcomingAppointmentSummaries(client, now),
     listPatients(client),
     listCitasBetween(client, monthStart.toISOString(), monthEnd.toISOString()),
     getIngresosHoy(client, now),
     getRecentActivity(client, now),
+    getRecentWhatsAppConversations(client, now),
   ])
 
   const citaCountByDate: Record<string, number> = {}
@@ -52,6 +54,7 @@ export default async function InicioPage() {
       ingresosHoy={ingresosHoy}
       nowIso={now.toISOString()}
       activityItems={activityItems}
+      whatsappConversations={whatsappConversations}
     />
   )
 }

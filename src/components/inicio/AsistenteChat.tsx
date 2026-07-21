@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import type { AppointmentSummary } from '@/lib/citas/queries'
 import type { ActivityItem } from '@/lib/inicio/activity'
+import type { WhatsAppConversation } from '@/lib/inicio/whatsapp'
 import { UpcomingAppointments } from './UpcomingAppointments'
 import { WhatsAppInbox } from './WhatsAppInbox'
 import { QuickActions } from './QuickActions'
@@ -25,6 +26,7 @@ export function AsistenteChat({
   ingresosHoy,
   nowIso,
   activityItems,
+  whatsappConversations,
 }: {
   name: string
   appointments: AppointmentSummary[]
@@ -34,6 +36,7 @@ export function AsistenteChat({
   ingresosHoy: number
   nowIso: string
   activityItems: ActivityItem[]
+  whatsappConversations: WhatsAppConversation[]
 }) {
   const [question, setQuestion] = useState('')
   const [loading, setLoading] = useState(false)
@@ -136,7 +139,7 @@ export function AsistenteChat({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
           <UpcomingAppointments appointments={appointments} />
-          <WhatsAppInbox />
+          <WhatsAppInbox conversations={whatsappConversations} />
         </div>
         <div className="space-y-6">
           <MiniCalendarWidget monthDate={now} citaCountByDate={citaCountByDate} />

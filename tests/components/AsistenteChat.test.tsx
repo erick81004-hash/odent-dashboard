@@ -25,6 +25,7 @@ describe('AsistenteChat', () => {
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
         activityItems={[]}
+        whatsappConversations={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
@@ -57,6 +58,7 @@ describe('AsistenteChat', () => {
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
         activityItems={[]}
+        whatsappConversations={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
@@ -81,6 +83,7 @@ describe('AsistenteChat', () => {
         ingresosHoy={0}
         nowIso="2026-07-16T12:00:00.000Z"
         activityItems={[]}
+        whatsappConversations={[]}
       />)
     fireEvent.change(screen.getByPlaceholderText(/escribe tu pregunta/i), {
       target: { value: '¿Alergias de Ana?' },
