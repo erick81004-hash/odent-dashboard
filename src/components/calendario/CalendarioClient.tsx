@@ -1,6 +1,7 @@
 'use client'
 
 import { useCallback, useEffect, useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { createBrowserSupabaseClient } from '@/lib/supabase/client'
 import { listCitasBetween } from '@/lib/citas/queries'
 import { createCita, rescheduleCita, updateCitaStatus, CitaConflictError } from '@/lib/citas/mutations'
@@ -72,8 +73,16 @@ function rangeForView(view: ViewMode, date: Date): { start: Date; end: Date } {
 }
 
 export function CalendarioClient({ patients, doctors }: { patients: Person[]; doctors: Person[] }) {
+  const searchParams = useSearchParams()
   const [view, setView] = useState<ViewMode>('dia')
-  const [currentDate, setCurrentDate] = useState(() => new Date())
+  const [currentDate, setCurrentDate] = useState(() => {
+    const dateParam = searchParams?.get('date')
+    if (dateParam) {
+      const parsed = new Date(`${dateParam}T00:00:00`)
+      if (!Number.isNaN(parsed.getTime())) return parsed
+    }
+    return new Date()
+  })
   const [citas, setCitas] = useState<Cita[]>([])
   const [formState, setFormState] = useState<FormState>(null)
   const [formError, setFormError] = useState<string | null>(null)

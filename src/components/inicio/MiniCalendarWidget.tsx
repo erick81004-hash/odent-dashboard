@@ -49,11 +49,12 @@ export function MiniCalendarWidget({
           const key = day.toISOString().slice(0, 10)
           const count = citaCountByDate[key] ?? 0
           return (
-            <div
+            <Link
               key={key}
-              className={`flex h-7 flex-col items-center justify-center rounded-md text-[11px] ${
+              href={`/calendario?date=${key}`}
+              className={`flex h-7 flex-col items-center justify-center rounded-md text-[11px] transition-colors hover:bg-primary/10 ${
                 isToday
-                  ? 'bg-primary text-on-primary'
+                  ? 'bg-primary text-on-primary hover:bg-primary'
                   : isCurrentMonth
                     ? 'text-foreground'
                     : 'text-foreground/25'
@@ -61,7 +62,7 @@ export function MiniCalendarWidget({
             >
               <span>{day.getDate()}</span>
               {count > 0 && !isToday && <span className="h-1 w-1 rounded-full bg-primary" />}
-            </div>
+            </Link>
           )
         })}
       </div>

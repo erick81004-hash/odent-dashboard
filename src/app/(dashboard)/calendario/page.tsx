@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import { createServerSupabaseClient } from '@/lib/supabase/server'
 import { listPatients } from '@/lib/patients/queries'
 import { listDoctors } from '@/lib/citas/queries'
@@ -8,9 +9,11 @@ export default async function CalendarioPage() {
   const [patients, doctors] = await Promise.all([listPatients(client), listDoctors(client)])
 
   return (
-    <CalendarioClient
-      patients={patients.map((p) => ({ id: p.id, full_name: p.full_name }))}
-      doctors={doctors}
-    />
+    <Suspense>
+      <CalendarioClient
+        patients={patients.map((p) => ({ id: p.id, full_name: p.full_name }))}
+        doctors={doctors}
+      />
+    </Suspense>
   )
 }
