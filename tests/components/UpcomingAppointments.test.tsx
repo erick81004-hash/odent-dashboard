@@ -6,7 +6,7 @@ describe('UpcomingAppointments', () => {
   it('renders each appointment passed in', () => {
     render(
       <UpcomingAppointments
-        appointments={[
+        initialAppointments={[
           { when: 'Hoy', time: '10:00 a. m.', patientName: 'Ana López', reason: 'Limpieza dental' },
         ]}
       />
@@ -16,7 +16,7 @@ describe('UpcomingAppointments', () => {
   })
 
   it('shows an empty state when there are no appointments', () => {
-    render(<UpcomingAppointments appointments={[]} />)
+    render(<UpcomingAppointments initialAppointments={[]} />)
     expect(screen.getByText(/no hay citas próximas/i)).toBeInTheDocument()
   })
 })

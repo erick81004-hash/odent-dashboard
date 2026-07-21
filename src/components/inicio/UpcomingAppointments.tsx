@@ -1,6 +1,27 @@
-import type { AppointmentSummary } from '@/lib/citas/queries'
+'use client'
 
-export function UpcomingAppointments({ appointments }: { appointments: AppointmentSummary[] }) {
+import { useEffect, useState } from 'react'
+import { createBrowserSupabaseClient } from '@/lib/supabase/client'
+import { getUpcomingAppointmentSummaries, type AppointmentSummary } from '@/lib/citas/queries'
+
+const POLL_INTERVAL_MS = 20_000
+
+export function UpcomingAppointments({ initialAppointments }: { initialAppointments: AppointmentSummary[] }) {
+  const [appointments, setAppointments] = useState(initialAppointments)
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const client = createBrowserSupabaseClient()
+        const fresh = await getUpcomingAppointmentSummaries(client, new Date())
+        setAppointments(fresh)
+      } catch {
+        // silently keep showing the last known appointments if a poll fails
+      }
+    }, POLL_INTERVAL_MS)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div>
       <h2 className="mb-3 font-heading text-sm font-semibold text-foreground/70">Próximas citas</h2>
