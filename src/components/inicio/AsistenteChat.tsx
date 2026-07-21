@@ -139,7 +139,7 @@ export function AsistenteChat({
       <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:col-span-2">
           <UpcomingAppointments appointments={appointments} />
-          <WhatsAppInbox conversations={whatsappConversations} />
+          <WhatsAppInbox initialConversations={whatsappConversations} />
         </div>
         <div className="space-y-6">
           <MiniCalendarWidget monthDate={now} citaCountByDate={citaCountByDate} />

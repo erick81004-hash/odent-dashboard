@@ -1,6 +1,27 @@
-import type { WhatsAppConversation } from '@/lib/inicio/whatsapp'
+'use client'
 
-export function WhatsAppInbox({ conversations }: { conversations: WhatsAppConversation[] }) {
+import { useEffect, useState } from 'react'
+import { createBrowserSupabaseClient } from '@/lib/supabase/client'
+import { getRecentWhatsAppConversations, type WhatsAppConversation } from '@/lib/inicio/whatsapp'
+
+const POLL_INTERVAL_MS = 20_000
+
+export function WhatsAppInbox({ initialConversations }: { initialConversations: WhatsAppConversation[] }) {
+  const [conversations, setConversations] = useState(initialConversations)
+
+  useEffect(() => {
+    const interval = setInterval(async () => {
+      try {
+        const client = createBrowserSupabaseClient()
+        const fresh = await getRecentWhatsAppConversations(client, new Date())
+        setConversations(fresh)
+      } catch {
+        // silently keep showing the last known conversations if a poll fails
+      }
+    }, POLL_INTERVAL_MS)
+    return () => clearInterval(interval)
+  }, [])
+
   return (
     <div>
       <div className="mb-3 flex items-center gap-2">
