@@ -33,6 +33,16 @@ export type TreatmentEvent = {
   edited_by: string | null
 }
 
+export type ToothConditionEvent = {
+  id: string
+  patient_id: string
+  tooth_number: number
+  condition_type: string
+  active: boolean
+  performed_by: string
+  performed_at: string
+}
+
 export type PatientDocument = {
   id: string
   patient_id: string

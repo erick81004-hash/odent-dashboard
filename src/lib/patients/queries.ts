@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Patient, TreatmentEvent, PatientDocument } from './types'
+import type { Patient, TreatmentEvent, PatientDocument, ToothConditionEvent } from './types'
 import { normalizeForSearch } from '../utils/normalize'
 
 export async function listPatients(
@@ -38,6 +38,19 @@ export async function getTreatmentEvents(
     .order('performed_at')
   if (error) throw error
   return data as TreatmentEvent[]
+}
+
+export async function listToothConditionEvents(
+  client: SupabaseClient,
+  patientId: string
+): Promise<ToothConditionEvent[]> {
+  const { data, error } = await client
+    .from('tooth_condition_events')
+    .select('*')
+    .eq('patient_id', patientId)
+    .order('performed_at')
+  if (error) throw error
+  return data as ToothConditionEvent[]
 }
 
 export async function getDocuments(
