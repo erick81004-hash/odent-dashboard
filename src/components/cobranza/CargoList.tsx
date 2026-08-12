@@ -25,7 +25,7 @@ export function CargoList({
   return (
     <table className="w-full text-left text-sm">
       <thead>
-        <tr className="border-b border-gray-200 text-gray-500">
+        <tr className="border-b border-border text-foreground/60">
           {patientNames && <th className="py-2 pr-4">Paciente</th>}
           <th className="py-2 pr-4">Concepto</th>
           <th className="py-2 pr-4">Monto</th>
@@ -42,7 +42,7 @@ export function CargoList({
           const saldo = saldoPendiente(cargo.monto, pagos)
           const status = deriveCargoStatus(cargo.monto, pagos)
           return (
-            <tr key={cargo.id} className="border-b border-gray-100">
+            <tr key={cargo.id} className="border-b border-border">
               {patientNames && <td className="py-2 pr-4">{patientNames[cargo.patient_id] ?? 'Paciente'}</td>}
               <td className="py-2 pr-4">{cargo.concepto}</td>
               <td className="py-2 pr-4">${cargo.monto.toFixed(2)}</td>
@@ -53,7 +53,7 @@ export function CargoList({
               <td className="py-2 pr-4">
                 <button
                   type="button"
-                  className="rounded border border-gray-300 px-2 py-1 text-xs hover:bg-gray-50"
+                  className="rounded border border-border px-2 py-1 text-xs hover:bg-muted"
                   onClick={() => onCargoClick(cargo)}
                 >
                   Cobrar

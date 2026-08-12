@@ -91,12 +91,12 @@ export function CobranzaClient({
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
           placeholder="Buscar por paciente, concepto o monto"
-          className="w-full max-w-sm rounded border border-gray-300 px-2 py-1 text-sm"
+          className="w-full max-w-sm rounded border border-border px-2 py-1 text-sm"
         />
         <button
           type="button"
           onClick={() => setModal({ mode: 'nuevo-cargo' })}
-          className="shrink-0 rounded border border-gray-400 px-3 py-1 text-sm"
+          className="shrink-0 rounded border border-border px-3 py-1 text-sm"
         >
           Nuevo cargo
         </button>
@@ -111,10 +111,10 @@ export function CobranzaClient({
 
       {modal?.mode === 'nuevo-cargo' && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/20 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-4 shadow-lg">
+          <div className="w-full max-w-md rounded-xl bg-page p-4 shadow-lg">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-semibold">Nuevo cargo</h2>
-              <button type="button" onClick={() => setModal(null)} className="text-sm text-gray-500">
+              <button type="button" onClick={() => setModal(null)} className="text-sm text-foreground/60">
                 Cerrar
               </button>
             </div>
@@ -125,10 +125,10 @@ export function CobranzaClient({
 
       {modal?.mode === 'nuevo-pago' && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/20 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-4 shadow-lg">
+          <div className="w-full max-w-md rounded-xl bg-page p-4 shadow-lg">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="text-sm font-semibold">{modal.cargo.concepto}</h2>
-              <button type="button" onClick={() => setModal(null)} className="text-sm text-gray-500">
+              <button type="button" onClick={() => setModal(null)} className="text-sm text-foreground/60">
                 Cerrar
               </button>
             </div>

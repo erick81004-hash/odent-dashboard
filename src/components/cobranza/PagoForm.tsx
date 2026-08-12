@@ -30,7 +30,7 @@ export function PagoForm({
         onSubmit({ monto: montoNumber, metodo, nota: nota.trim() ? nota : null })
       }}
     >
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-foreground/60">
         Saldo pendiente: <span className="font-medium">${saldoPendiente.toFixed(2)}</span>
       </p>
       <label className="block text-sm">
@@ -39,7 +39,7 @@ export function PagoForm({
           type="number"
           min="0"
           step="50"
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}
         />
@@ -47,7 +47,7 @@ export function PagoForm({
       <label className="block text-sm">
         Método
         <select
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={metodo}
           onChange={(e) => setMetodo(e.target.value as MetodoPago)}
         >
@@ -61,7 +61,7 @@ export function PagoForm({
       <label className="block text-sm">
         Nota
         <input
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={nota}
           onChange={(e) => setNota(e.target.value)}
         />
@@ -71,7 +71,7 @@ export function PagoForm({
       <button
         type="submit"
         disabled={!monto || exceedsBalance}
-        className="rounded border border-gray-400 px-3 py-1 text-sm disabled:opacity-40"
+        className="rounded border border-border px-3 py-1 text-sm disabled:opacity-40"
       >
         Registrar pago
       </button>

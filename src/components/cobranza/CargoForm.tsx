@@ -45,7 +45,7 @@ export function CargoForm({
         <label className="block text-sm">
           Paciente
           <input
-            className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+            className="mt-1 block w-full rounded border border-border px-2 py-1"
             value={patientQuery}
             placeholder="Buscar paciente por nombre"
             onChange={(e) => {
@@ -54,12 +54,12 @@ export function CargoForm({
             }}
           />
           {matches.length > 0 && (
-            <ul className="mt-1 max-h-40 overflow-y-auto rounded border border-gray-200">
+            <ul className="mt-1 max-h-40 overflow-y-auto rounded border border-border">
               {matches.map((p) => (
                 <li key={p.id}>
                   <button
                     type="button"
-                    className="block w-full px-2 py-1 text-left text-sm hover:bg-gray-50"
+                    className="block w-full px-2 py-1 text-left text-sm hover:bg-muted"
                     onClick={() => {
                       setPatientId(p.id)
                       setPatientQuery(p.full_name)
@@ -76,7 +76,7 @@ export function CargoForm({
       <label className="block text-sm">
         Concepto
         <select
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={concepto}
           onChange={(e) => setConcepto(e.target.value)}
         >
@@ -96,7 +96,7 @@ export function CargoForm({
           type="number"
           min="0"
           step="50"
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}
         />
@@ -105,7 +105,7 @@ export function CargoForm({
       <button
         type="submit"
         disabled={!patientId}
-        className="rounded border border-gray-400 px-3 py-1 text-sm disabled:opacity-40"
+        className="rounded border border-border px-3 py-1 text-sm disabled:opacity-40"
       >
         Guardar cargo
       </button>
