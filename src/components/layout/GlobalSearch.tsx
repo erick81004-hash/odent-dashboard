@@ -64,7 +64,7 @@ export function GlobalSearch() {
         }}
         onFocus={() => setOpen(true)}
         placeholder="Buscar paciente…"
-        className="w-full rounded-full border border-border bg-white/70 py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-foreground/40"
+        className="w-full rounded-full border border-transparent bg-white py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-foreground/40"
       />
 
       {open && query.trim() && (

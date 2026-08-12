@@ -17,7 +17,7 @@ const ROLE_LABEL: Record<string, string> = {
 
 export function TopBar({ name, role }: { name: string; role: string }) {
   return (
-    <div className="flex items-center gap-4 px-6 pt-4">
+    <div className="flex items-center gap-4 bg-sidebar-bg px-6 py-4">
       <GlobalSearch />
 
       <div className="flex shrink-0 items-center gap-3">
@@ -59,8 +59,8 @@ export function TopBar({ name, role }: { name: string; role: string }) {
             {initials(name)}
           </div>
           <div className="leading-tight">
-            <p className="text-sm font-medium text-foreground">{name}</p>
-            <p className="text-xs text-foreground/50">{ROLE_LABEL[role] ?? role}</p>
+            <p className="text-sm font-medium text-sidebar-fg">{name}</p>
+            <p className="text-xs text-sidebar-fg-muted">{ROLE_LABEL[role] ?? role}</p>
           </div>
         </div>
       </div>
