@@ -28,7 +28,7 @@ export function MiniCalendarWidget({
   })
 
   return (
-    <div className="rounded-xl border border-border/60 bg-white/80 p-4 shadow-sm">
+    <div className="rounded-xl border border-border/60 bg-page/80 p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <p className="font-heading text-sm font-semibold text-foreground">
           {MONTH_LABELS[monthDate.getMonth()]} {monthDate.getFullYear()}

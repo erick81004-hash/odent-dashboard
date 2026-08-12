@@ -367,7 +367,7 @@ export function PatientDetailsSection({
           </label>
         </section>
       </div>
-      {error && <p className="text-red-600">{error}</p>}
+      {error && <p className="text-destructive">{error}</p>}
       <div className="flex items-center justify-between">
         <div className="flex gap-2">
           <button

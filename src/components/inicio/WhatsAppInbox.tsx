@@ -40,7 +40,7 @@ export function WhatsAppInbox({ initialConversations }: { initialConversations: 
           {conversations.map((conversation) => (
             <div
               key={conversation.numero}
-              className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-white/70 p-3 shadow-sm"
+              className="flex items-center justify-between gap-3 rounded-xl border border-border/60 bg-page/70 p-3 shadow-sm"
             >
               <div className="min-w-0">
                 <p className="truncate text-sm font-medium text-foreground">{conversation.contactName}</p>

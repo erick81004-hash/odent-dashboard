@@ -30,7 +30,7 @@ export function UpcomingAppointments({ initialAppointments }: { initialAppointme
       ) : (
         <div className="space-y-2">
           {appointments.map((appointment, i) => (
-            <div key={i} className="rounded-xl border border-border/60 bg-white/70 p-4 shadow-sm">
+            <div key={i} className="rounded-xl border border-border/60 bg-page/70 p-4 shadow-sm">
               <div className="flex items-center justify-between">
                 <span
                   className={`rounded-full px-2 py-0.5 text-xs font-medium ${

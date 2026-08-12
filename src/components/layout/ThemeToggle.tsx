@@ -23,7 +23,7 @@ export function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? 'Cambiar a modo claro' : 'Cambiar a modo oscuro'}
-      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-foreground/60"
+      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/70 text-sidebar-bg/70"
     >
       {isDark ? (
         <svg viewBox="0 0 20 20" fill="none" className="h-4 w-4">

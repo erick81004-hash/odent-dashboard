@@ -66,8 +66,8 @@ export function PagoForm({
           onChange={(e) => setNota(e.target.value)}
         />
       </label>
-      {exceedsBalance && <p className="text-sm text-red-600">El monto excede el saldo pendiente.</p>}
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {exceedsBalance && <p className="text-sm text-destructive">El monto excede el saldo pendiente.</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
       <button
         type="submit"
         disabled={!monto || exceedsBalance}

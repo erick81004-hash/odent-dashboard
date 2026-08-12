@@ -2,7 +2,7 @@ import type { ActivityItem } from '@/lib/inicio/activity'
 
 export function ActivityFeed({ items }: { items: ActivityItem[] }) {
   return (
-    <div className="rounded-xl border border-border/60 bg-white/80 p-4 shadow-sm">
+    <div className="rounded-xl border border-border/60 bg-page/80 p-4 shadow-sm">
       <p className="mb-3 font-heading text-sm font-semibold text-foreground">Actividad reciente</p>
       {items.length === 0 ? (
         <p className="text-sm text-foreground/50">Sin actividad reciente.</p>

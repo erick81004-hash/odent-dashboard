@@ -74,7 +74,7 @@ export function QuickActions() {
             <Link
               key={action.label}
               href={action.href}
-              className="flex items-center gap-3 rounded-xl border border-border/60 bg-white/80 p-3 shadow-sm transition hover:shadow-md"
+              className="flex items-center gap-3 rounded-xl border border-border/60 bg-page/80 p-3 shadow-sm transition hover:shadow-md"
             >
               {content}
             </Link>
@@ -83,7 +83,7 @@ export function QuickActions() {
         return (
           <div
             key={action.label}
-            className="flex cursor-not-allowed items-center gap-3 rounded-xl border border-dashed border-border/60 bg-white/40 p-3 opacity-60"
+            className="flex cursor-not-allowed items-center gap-3 rounded-xl border border-dashed border-border/60 bg-page/40 p-3 opacity-60"
           >
             {content}
           </div>

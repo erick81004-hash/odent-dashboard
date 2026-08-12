@@ -96,7 +96,7 @@ export function AsistenteChat({
 
         <form
           onSubmit={handleSubmit}
-          className="mx-auto mt-6 flex max-w-lg items-center gap-2 rounded-full bg-white/80 py-1.5 pl-5 pr-1.5 shadow-md"
+          className="mx-auto mt-6 flex max-w-lg items-center gap-2 rounded-full bg-page/80 py-1.5 pl-5 pr-1.5 shadow-md"
         >
           <input
             className="flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-foreground/40"
@@ -122,7 +122,7 @@ export function AsistenteChat({
       {exchanges.length > 0 && (
         <ul className="mx-auto mb-6 max-w-lg space-y-3">
           {exchanges.map((exchange, i) => (
-            <li key={i} className="rounded-xl border border-border/60 bg-white/70 p-4 text-sm shadow-sm">
+            <li key={i} className="rounded-xl border border-border/60 bg-page/70 p-4 text-sm shadow-sm">
               <p className="font-medium text-foreground">{exchange.question}</p>
               {exchange.answer && <p className="mt-1 text-foreground/80">{exchange.answer}</p>}
               {exchange.error && <p className="mt-1 text-destructive">{exchange.error}</p>}

@@ -23,7 +23,7 @@ export function PatientTabs({
           href={`/pacientes/${patientId}?tab=${tab.key}`}
           className={`px-3 py-2 text-sm ${
             tab.key === active
-              ? 'border-b-2 border-blue-600 font-medium'
+              ? 'border-b-2 border-primary font-medium'
               : 'text-foreground/60'
           }`}
         >

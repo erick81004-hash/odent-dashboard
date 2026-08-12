@@ -93,7 +93,7 @@ export function TreatmentHistoryList({
               onChange={(e) => setNotes(e.target.value)}
             />
           </label>
-          {error && <p className="text-red-600">{error}</p>}
+          {error && <p className="text-destructive">{error}</p>}
           <div className="flex gap-2">
             <button
               type="button"

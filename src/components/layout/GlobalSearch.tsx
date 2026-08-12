@@ -64,13 +64,13 @@ export function GlobalSearch() {
         }}
         onFocus={() => setOpen(true)}
         placeholder="Buscar paciente…"
-        className="w-full rounded-full border border-transparent bg-white py-2 pl-9 pr-3 text-sm text-foreground placeholder:text-foreground/40"
+        className="w-full rounded-full border border-transparent bg-white py-2 pl-9 pr-3 text-sm text-sidebar-bg placeholder:text-sidebar-bg/40"
       />
 
       {open && query.trim() && (
         <ul className="absolute z-10 mt-1 w-full overflow-hidden rounded-xl border border-border bg-white shadow-md">
           {results.length === 0 ? (
-            <li className="px-4 py-3 text-sm text-foreground/50">Sin resultados</li>
+            <li className="px-4 py-3 text-sm text-sidebar-bg/50">Sin resultados</li>
           ) : (
             results.map((patient) => (
               <li key={patient.id}>

@@ -11,6 +11,6 @@ describe('PatientTabs', () => {
 
   it('marks the active tab', () => {
     render(<PatientTabs patientId="p1" active="cobranza" />)
-    expect(screen.getByRole('link', { name: 'Cobranza' })).toHaveClass('border-blue-600')
+    expect(screen.getByRole('link', { name: 'Cobranza' })).toHaveClass('border-primary')
   })
 })
