@@ -51,7 +51,7 @@ export function GlobalSearch() {
       <svg
         viewBox="0 0 20 20"
         fill="none"
-        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-foreground/40"
+        className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-sidebar-bg/40"
       >
         <circle cx="9" cy="9" r="6" stroke="currentColor" strokeWidth="1.5" />
         <path d="M14 14l4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -77,7 +77,7 @@ export function GlobalSearch() {
                 <button
                   type="button"
                   onClick={() => selectPatient(patient.id)}
-                  className="block w-full px-4 py-2 text-left text-sm hover:bg-muted"
+                  className="block w-full px-4 py-2 text-left text-sm text-sidebar-bg hover:bg-sidebar-bg/10"
                 >
                   {patient.full_name}
                 </button>

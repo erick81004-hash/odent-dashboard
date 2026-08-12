@@ -157,7 +157,7 @@ function DocumentItem({
           </div>
         )}
       </div>
-      {error && <p className="mt-1 text-red-600">{error}</p>}
+      {error && <p className="mt-1 text-destructive">{error}</p>}
     </li>
   )
 }

@@ -101,7 +101,7 @@ export function CargoForm({
           onChange={(e) => setMonto(e.target.value)}
         />
       </label>
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="text-sm text-destructive">{error}</p>}
       <button
         type="submit"
         disabled={!patientId}
