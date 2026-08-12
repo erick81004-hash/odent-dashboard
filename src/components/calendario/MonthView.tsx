@@ -37,7 +37,7 @@ export function MonthView({
             type="button"
             onClick={() => onDayClick(day)}
             className={`min-h-20 rounded-lg border border-border/40 p-1 text-left align-top ${
-              isCurrentMonth ? 'bg-white/70' : 'bg-white/30 text-foreground/30'
+              isCurrentMonth ? 'bg-page/70' : 'bg-page/30 text-foreground/30'
             }`}
           >
             <p className="text-xs font-medium">{day.getDate()}</p>

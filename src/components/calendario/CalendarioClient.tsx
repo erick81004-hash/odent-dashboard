@@ -241,7 +241,7 @@ export function CalendarioClient({ patients, doctors }: { patients: Person[]; do
 
       {formState && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/20 p-4">
-          <div className="w-full max-w-md rounded-xl bg-white p-4 shadow-lg">
+          <div className="w-full max-w-md rounded-xl bg-page p-4 shadow-lg">
             <div className="mb-2 flex items-center justify-between">
               <h2 className="font-heading text-sm font-semibold">
                 {formState.mode === 'create' ? 'Nueva cita' : 'Editar cita'}

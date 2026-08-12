@@ -61,10 +61,10 @@ export function CitaForm({
 
   if (creatingPatient) {
     return (
-      <div className="space-y-2 rounded border border-gray-200 p-3">
+      <div className="space-y-2 rounded border border-border p-3">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium">Nuevo paciente</p>
-          <button type="button" className="text-sm text-gray-500" onClick={() => setCreatingPatient(false)}>
+          <button type="button" className="text-sm text-foreground/60" onClick={() => setCreatingPatient(false)}>
             Cancelar
           </button>
         </div>
@@ -99,7 +99,7 @@ export function CitaForm({
         Paciente
         <div className="mt-1 flex gap-2">
           <input
-            className="block w-full rounded border border-gray-300 px-2 py-1"
+            className="block w-full rounded border border-border px-2 py-1"
             value={patientQuery}
             placeholder="Buscar paciente por nombre"
             onChange={(e) => {
@@ -110,7 +110,7 @@ export function CitaForm({
           {onCreatePatient && (
             <button
               type="button"
-              className="shrink-0 whitespace-nowrap rounded border border-gray-400 px-2 py-1 text-xs"
+              className="shrink-0 whitespace-nowrap rounded border border-border px-2 py-1 text-xs"
               onClick={() => setCreatingPatient(true)}
             >
               + Nuevo paciente
@@ -118,12 +118,12 @@ export function CitaForm({
           )}
         </div>
         {matches.length > 0 && (
-          <ul className="mt-1 max-h-40 overflow-y-auto rounded border border-gray-200">
+          <ul className="mt-1 max-h-40 overflow-y-auto rounded border border-border">
             {matches.map((p) => (
               <li key={p.id}>
                 <button
                   type="button"
-                  className="block w-full px-2 py-1 text-left text-sm hover:bg-gray-50"
+                  className="block w-full px-2 py-1 text-left text-sm hover:bg-muted"
                   onClick={() => {
                     setPatientId(p.id)
                     setPatientQuery(p.full_name)
@@ -139,7 +139,7 @@ export function CitaForm({
       <label className="block text-sm">
         Doctor
         <select
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={doctorId}
           onChange={(e) => setDoctorId(e.target.value)}
         >
@@ -154,7 +154,7 @@ export function CitaForm({
         Fecha y hora
         <input
           type="datetime-local"
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={startsAt}
           onChange={(e) => setStartsAt(e.target.value)}
         />
@@ -162,7 +162,7 @@ export function CitaForm({
       <label className="block text-sm">
         Duración
         <select
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={duration}
           onChange={(e) => setDuration(Number(e.target.value))}
         >
@@ -176,7 +176,7 @@ export function CitaForm({
       <label className="block text-sm">
         Motivo
         <input
-          className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+          className="mt-1 block w-full rounded border border-border px-2 py-1"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
         />
@@ -185,7 +185,7 @@ export function CitaForm({
       <button
         type="submit"
         disabled={!patientId}
-        className="rounded border border-gray-400 px-3 py-1 text-sm disabled:opacity-40"
+        className="rounded border border-border px-3 py-1 text-sm disabled:opacity-40"
       >
         Guardar cita
       </button>
@@ -198,7 +198,7 @@ export function CitaForm({
               type="button"
               onClick={() => onStatusChange(status)}
               className={`rounded border px-2 py-1 text-xs ${
-                existingCita.status === status ? 'border-primary bg-primary text-on-primary' : 'border-gray-300'
+                existingCita.status === status ? 'border-primary bg-primary text-on-primary' : 'border-border'
               }`}
             >
               {status}
