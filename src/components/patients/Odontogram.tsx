@@ -54,26 +54,24 @@ export function Odontogram({
   return (
     <div className="space-y-3">
       <OdontogramViewTabs active={view} onChange={setView} />
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
-        <div className="w-full shrink-0 rounded-xl border border-border bg-page p-4 shadow-sm lg:max-w-3xl">
-          <ToothGrid
-            activeConditionsByTooth={activeConditionsByTooth}
-            selected={selected}
-            onSelect={setSelected}
-          />
-        </div>
-        {selected !== null && (
-          <div className="lg:flex-1">
-            <ToothConditionPanel
-              tooth={selected}
-              activeConditions={states[selected].activeConditions}
-              onToggle={handleToggle}
-              disabled={!canEdit}
-            />
-            {toggleError && <p className="mt-2 text-xs text-destructive">{toggleError}</p>}
-          </div>
-        )}
+      <div className="w-full rounded-xl border border-border bg-page p-4 shadow-sm">
+        <ToothGrid
+          activeConditionsByTooth={activeConditionsByTooth}
+          selected={selected}
+          onSelect={setSelected}
+        />
       </div>
+      {selected !== null && (
+        <div className="w-full">
+          <ToothConditionPanel
+            tooth={selected}
+            activeConditions={states[selected].activeConditions}
+            onToggle={handleToggle}
+            disabled={!canEdit}
+          />
+          {toggleError && <p className="mt-2 text-xs text-destructive">{toggleError}</p>}
+        </div>
+      )}
     </div>
   )
 }

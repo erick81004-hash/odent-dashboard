@@ -22,7 +22,7 @@ export function ToothConditionPanel({
       <p className="mt-1 text-xs text-foreground/60">
         Selecciona lo que observas en esta pieza. Los cambios quedan guardados de inmediato en el expediente.
       </p>
-      <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+      <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
         {TOOTH_CONDITIONS.map((condition) => {
           const checked = activeConditions.includes(condition.key)
           return (
