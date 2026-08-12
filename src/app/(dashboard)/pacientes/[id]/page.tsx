@@ -4,6 +4,7 @@ import { createServerSupabaseClient } from '@/lib/supabase/server'
 import {
   getPatientById,
   getTreatmentEvents,
+  listToothConditionEvents,
   getDocuments,
   getDocumentUrls,
   getPatientPhotoUrls,
@@ -36,6 +37,7 @@ export default async function PatientProfilePage({
   if (!patient) notFound()
 
   const events = await getTreatmentEvents(client, id)
+  const toothConditionEvents = await listToothConditionEvents(client, id)
   const documents = await getDocuments(client, id)
   const documentUrls = await getDocumentUrls(client, documents)
   const profile = await getCurrentProfile(client)
@@ -70,7 +72,7 @@ export default async function PatientProfilePage({
         />
       )}
 
-      {activeTab === 'odontograma' && <Odontogram patientId={id} events={events} />}
+      {activeTab === 'odontograma' && <Odontogram patientId={id} events={toothConditionEvents} />}
       {activeTab === 'historial' && <TreatmentHistoryList patientId={id} events={events} />}
       {activeTab === 'documentos' && (
         <DocumentGallery
