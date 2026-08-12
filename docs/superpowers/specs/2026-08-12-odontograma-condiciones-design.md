@@ -178,7 +178,7 @@ export function toothTypeLabel(tooth: number): string {
   superpuesto si son 2 o más. Diente seleccionado: anillo `ring-2
   ring-primary`.
 - **`ToothConditionPanel.tsx`** (nuevo, reemplaza a `TreatmentEventForm.tsx`)
-  — al seleccionar un diente: número + `toothTypeLabel`, lista de 19
+  — al seleccionar un diente: número + `toothTypeLabel`, lista de 20
   checkboxes (uno por `TOOTH_CONDITIONS`), marcados según
   `activeConditions`. Cada click llama `onToggle(conditionKey, nextActive)`
   de inmediato (sin botón de "guardar" — coincide con el comportamiento de
