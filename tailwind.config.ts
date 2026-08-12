@@ -21,6 +21,10 @@ const config: Config = {
         destructive: "var(--color-destructive)",
         warning: "var(--color-warning)",
         "warning-bg": "var(--color-warning-bg)",
+        "sidebar-bg": "var(--color-sidebar-bg)",
+        "sidebar-fg": "var(--color-sidebar-fg)",
+        "sidebar-fg-muted": "var(--color-sidebar-fg-muted)",
+        "sidebar-active": "var(--color-sidebar-active)",
       },
       fontFamily: {
         heading: ["Figtree", "sans-serif"],
