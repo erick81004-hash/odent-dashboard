@@ -50,7 +50,7 @@ export function ToothGrid({
   return (
     <div className="space-y-3">
       <div className="overflow-x-auto">
-        <div className="flex justify-center gap-1.5">
+        <div className="mx-auto flex w-max gap-1.5">
           {UPPER_ROW_FDI.map((tooth) => (
             <ToothCell
               key={tooth}
@@ -63,7 +63,7 @@ export function ToothGrid({
         </div>
       </div>
       <div className="overflow-x-auto">
-        <div className="flex justify-center gap-1.5">
+        <div className="mx-auto flex w-max gap-1.5">
           {LOWER_ROW_FDI.map((tooth) => (
             <ToothCell
               key={tooth}
