@@ -28,6 +28,18 @@
   --color-sidebar-chip: rgba(108, 111, 123, 0.2);
 }
 
+.dark {
+  --background: #16171C;
+  --foreground: #E4E5E9;
+
+  --color-page: #1E2027;
+  --color-muted: #2A2C34;
+  --color-border: #34363F;
+  --color-destructive: #f87171;
+  --color-warning: #F0B429;
+  --color-warning-bg: #3A2E12;
+}
+
 body {
   color: var(--foreground);
   background: var(--background);

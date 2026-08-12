@@ -1,4 +1,5 @@
 import { GlobalSearch } from './GlobalSearch'
+import { ThemeToggle } from './ThemeToggle'
 
 function initials(name: string): string {
   return name
@@ -21,6 +22,8 @@ export function TopBar({ name, role }: { name: string; role: string }) {
       <GlobalSearch />
 
       <div className="flex shrink-0 items-center gap-3">
+        <ThemeToggle />
+
         <button
           type="button"
           disabled
