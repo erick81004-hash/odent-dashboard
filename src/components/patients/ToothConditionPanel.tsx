@@ -1,0 +1,42 @@
+'use client'
+
+import { TOOTH_CONDITIONS, type ToothConditionKey } from '@/lib/odontogram/conditions'
+import { toothTypeLabel } from '@/lib/odontogram/toothType'
+
+export function ToothConditionPanel({
+  tooth,
+  activeConditions,
+  onToggle,
+}: {
+  tooth: number
+  activeConditions: ToothConditionKey[]
+  onToggle: (condition: ToothConditionKey, active: boolean) => void
+}) {
+  return (
+    <div className="rounded-xl border border-border bg-page p-4 shadow-sm">
+      <p className="font-heading text-sm font-semibold text-foreground">
+        Diente {tooth} · {toothTypeLabel(tooth)}
+      </p>
+      <p className="mt-1 text-xs text-foreground/60">
+        Marca o desmarca condiciones de la pieza {tooth}. Cada cambio se guarda al instante.
+      </p>
+      <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
+        {TOOTH_CONDITIONS.map((condition) => {
+          const checked = activeConditions.includes(condition.key)
+          return (
+            <li key={condition.key}>
+              <label className="flex items-center gap-2 text-sm text-foreground">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={(e) => onToggle(condition.key, e.target.checked)}
+                />
+                {condition.label}
+              </label>
+            </li>
+          )
+        })}
+      </ul>
+    </div>
+  )
+}
