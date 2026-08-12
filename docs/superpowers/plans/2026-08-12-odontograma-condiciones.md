@@ -2,9 +2,9 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Reemplazar el modelo de "un estado por diente" del odontograma por un modelo de "múltiples condiciones activas por diente" (taxonomía de 19 condiciones de Dentality), con un rediseño visual vectorial (cuadrícula de dos filas, dos pestañas de vista), sin tocar `treatment_events` ni la pestaña "Historial".
+**Goal:** Reemplazar el modelo de "un estado por diente" del odontograma por un modelo de "múltiples condiciones activas por diente" (taxonomía de 20 condiciones de Dentality), con un rediseño visual vectorial (cuadrícula de dos filas, dos pestañas de vista), sin tocar `treatment_events` ni la pestaña "Historial".
 
-**Architecture:** Tabla nueva append-only `tooth_condition_events` (una fila por evento de activar/desactivar una condición en un diente). El estado actual por diente se deriva en el cliente tomando, para cada `(tooth_number, condition_type)`, el evento más reciente. La UI se parte en 4 componentes de responsabilidad única: `OdontogramViewTabs` (pestañas Vestibular/Lingual, solo UI), `ToothGrid` (cuadrícula vectorial de 32 dientes), `ToothConditionPanel` (checkboxes de las 19 condiciones del diente seleccionado), y `Odontogram` (orquestador que junta los tres y llama a Supabase).
+**Architecture:** Tabla nueva append-only `tooth_condition_events` (una fila por evento de activar/desactivar una condición en un diente). El estado actual por diente se deriva en el cliente tomando, para cada `(tooth_number, condition_type)`, el evento más reciente. La UI se parte en 4 componentes de responsabilidad única: `OdontogramViewTabs` (pestañas Vestibular/Lingual, solo UI), `ToothGrid` (cuadrícula vectorial de 32 dientes), `ToothConditionPanel` (checkboxes de las 20 condiciones del diente seleccionado), y `Odontogram` (orquestador que junta los tres y llama a Supabase).
 
 **Tech Stack:** Next.js 14 App Router, Supabase (Postgres + RLS), TypeScript, Tailwind CSS, Vitest + Testing Library.
 
@@ -12,7 +12,7 @@
 
 - No se migran datos existentes de `treatment_events` — el odontograma arranca en blanco con el modelo nuevo (spec: "Decisiones explícitas").
 - `treatment_events`, `TreatmentHistoryList`, y la pestaña "Historial" no cambian.
-- Las 19 condiciones son exactamente las de Dentality — ni se recortan ni se agregan (spec: "Taxonomía de condiciones").
+- Las 20 condiciones son exactamente las de Dentality — ni se recortan ni se agregan (spec: "Taxonomía de condiciones").
 - `tooth_condition_events` es append-only: sin políticas RLS de `update`/`delete`, sin tabla de auditoría separada — el propio log de inserciones es el historial.
 - Sin assets de imagen de terceros — el diagrama es 100% SVG/vectorial generado en código.
 - `TreatmentEventForm.tsx` y `src/lib/odontogram/deriveState.ts` (con sus tests) se eliminan — confirmado que nada más los usa.
@@ -440,9 +440,9 @@ import { render, screen, fireEvent } from '@testing-library/react'
 import { ToothConditionPanel } from '@/components/patients/ToothConditionPanel'
 
 describe('ToothConditionPanel', () => {
-  it('renders all 19 conditions as checkboxes', () => {
+  it('renders all 20 conditions as checkboxes', () => {
     render(<ToothConditionPanel tooth={11} activeConditions={[]} onToggle={vi.fn()} />)
-    expect(screen.getAllByRole('checkbox')).toHaveLength(19)
+    expect(screen.getAllByRole('checkbox')).toHaveLength(20)
     expect(screen.getByLabelText('Caries')).toBeInTheDocument()
     expect(screen.getByLabelText('Reemplazo de prótesis')).toBeInTheDocument()
   })
@@ -958,7 +958,7 @@ Expected: sin resultados (todo lo viejo fue reemplazado y eliminado en las Tasks
 - [ ] **Step 7: Verificación visual manual**
 
 Run: `npm run dev` (requiere `.env.local` apuntando a un Supabase con la migración de la Task 1 aplicada — local con Docker corriendo, o el proyecto en la nube).
-Ir a un paciente existente → pestaña "Odontograma". Confirmar: se ven 32 dientes en dos filas por arcada, las pestañas "Vestibular"/"Lingual y palatina" cambian de estado activo al hacer clic, seleccionar un diente abre el panel con las 19 condiciones, marcar una condición la refleja de inmediato en el color/badge del diente en la cuadrícula sin recargar la página.
+Ir a un paciente existente → pestaña "Odontograma". Confirmar: se ven 32 dientes en dos filas por arcada, las pestañas "Vestibular"/"Lingual y palatina" cambian de estado activo al hacer clic, seleccionar un diente abre el panel con las 20 condiciones, marcar una condición la refleja de inmediato en el color/badge del diente en la cuadrícula sin recargar la página.
 
 - [ ] **Step 8: Commit**
 

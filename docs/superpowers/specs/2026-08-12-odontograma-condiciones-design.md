@@ -16,7 +16,7 @@ El usuario compartió el HTML exportado del odontograma de **Dentality**
 software que Odent está reemplazando, para usarlo como referencia funcional
 (no se reutiliza ningún asset visual de Dentality — son propiedad de un
 competidor). Ese análisis mostró que Dentality permite **múltiples
-condiciones simultáneas por diente** (19 tipos: Caries, Gingivitis,
+condiciones simultáneas por diente** (20 tipos: Caries, Gingivitis,
 Periodontitis, Fractura, Apiñamiento, Fluorosis, Ausencia, Infección Pulpar,
 Restos Radicular, Endodoncia, Brackets, Corona, Cirugía, Movilidad, Recesión
 gingival, Desgaste, Sensibilidad, Placa dental, Bruxismo, Reemplazo de
@@ -26,7 +26,7 @@ vistas (Vestibular / Lingual y palatina) que muestran la misma información.
 ## Objetivo
 
 1. Cambiar el modelo de datos del odontograma de "un estado por diente" a
-   "conjunto de condiciones activas por diente" (0 a 19 simultáneas),
+   "conjunto de condiciones activas por diente" (0 a 20 simultáneas),
    siguiendo la taxonomía de Dentality.
 2. Rediseñar visualmente el odontograma como diagrama vectorial de cuadrícula
    (dos filas por arcada, dos pestañas de vista Vestibular/Lingual),
@@ -49,7 +49,7 @@ vistas (Vestibular / Lingual y palatina) que muestran la misma información.
 - **Sin fotos ni assets de terceros.** El diagrama es 100% vectorial (formas
   SVG generadas en código), no depende de conseguir una imagen real de la
   vista lingual.
-- **Las 19 condiciones son las de Dentality, sin recortar ni agregar.**
+- **Las 20 condiciones son las de Dentality, sin recortar ni agregar.**
 
 ## Modelo de datos
 
