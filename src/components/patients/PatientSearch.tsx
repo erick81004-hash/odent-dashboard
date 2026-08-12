@@ -11,7 +11,7 @@ export function PatientSearch() {
       type="text"
       placeholder="Buscar paciente por nombre"
       defaultValue={searchParams.get('q') ?? ''}
-      className="w-full rounded border border-gray-300 px-3 py-2 text-sm"
+      className="w-full rounded border border-border px-3 py-2 text-sm"
       onChange={(e) => {
         const params = new URLSearchParams(searchParams)
         if (e.target.value) params.set('q', e.target.value)

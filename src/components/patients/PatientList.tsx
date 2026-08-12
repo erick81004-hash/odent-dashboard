@@ -17,7 +17,7 @@ export function PatientList({
   const [hoveredId, setHoveredId] = useState<string | null>(patients[0]?.id ?? null)
 
   if (patients.length === 0) {
-    return <p className="text-sm text-gray-500">No hay pacientes que coincidan con la búsqueda.</p>
+    return <p className="text-sm text-foreground/60">No hay pacientes que coincidan con la búsqueda.</p>
   }
 
   const previewPatient = patients.find((p) => p.id === hoveredId) ?? patients[0]
@@ -43,7 +43,7 @@ export function PatientList({
         ))}
       </ul>
 
-      <div className="sticky top-4 w-80 shrink-0 rounded-xl border border-border bg-white p-6 text-center shadow-sm">
+      <div className="sticky top-4 w-80 shrink-0 rounded-xl border border-border bg-page p-6 text-center shadow-sm">
         {photoUrls[previewPatient.id] ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

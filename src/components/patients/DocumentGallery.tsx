@@ -51,12 +51,12 @@ function DocumentItem({
   }
 
   return (
-    <li className="relative rounded border border-gray-200 p-2 text-xs">
+    <li className="relative rounded border border-border p-2 text-xs">
       <div className="flex items-start justify-between">
         {renaming ? (
           <div className="flex-1 space-y-1">
             <input
-              className="w-full rounded border border-gray-300 px-1 py-0.5 text-xs"
+              className="w-full rounded border border-border px-1 py-0.5 text-xs"
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={busy}
@@ -72,7 +72,7 @@ function DocumentItem({
               </button>
               <button
                 type="button"
-                className="text-gray-500 hover:underline"
+                className="text-foreground/60 hover:underline"
                 disabled={busy}
                 onClick={() => {
                   setRenaming(false)
@@ -95,10 +95,10 @@ function DocumentItem({
                 {doc.display_name ?? 'Ver documento'}
               </a>
             ) : (
-              <p className="text-gray-400">{doc.display_name ?? 'No disponible'}</p>
+              <p className="text-foreground/40">{doc.display_name ?? 'No disponible'}</p>
             )}
             <p>{doc.file_type}</p>
-            <p className="text-gray-500">{new Date(doc.uploaded_at).toLocaleDateString()}</p>
+            <p className="text-foreground/60">{new Date(doc.uploaded_at).toLocaleDateString()}</p>
           </div>
         )}
 
@@ -107,20 +107,20 @@ function DocumentItem({
             <button
               type="button"
               aria-label="Más opciones"
-              className="px-1 text-gray-500 hover:text-gray-800"
+              className="px-1 text-foreground/60 hover:text-foreground"
               onClick={() => setMenuOpen((open) => !open)}
             >
               ⋮
             </button>
             {menuOpen && (
-              <ul className="absolute right-0 top-5 z-10 w-32 rounded border border-gray-200 bg-white text-left shadow-md">
+              <ul className="absolute right-0 top-5 z-10 w-32 rounded border border-border bg-page text-left shadow-md">
                 <li>
                   <a
                     href={url}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-disabled={!url}
-                    className={`block px-2 py-1 hover:bg-gray-50 ${!url ? 'pointer-events-none text-gray-300' : ''}`}
+                    className={`block px-2 py-1 hover:bg-muted ${!url ? 'pointer-events-none text-foreground/40' : ''}`}
                     onClick={() => setMenuOpen(false)}
                   >
                     Abrir
@@ -129,7 +129,7 @@ function DocumentItem({
                 <li>
                   <button
                     type="button"
-                    className="block w-full px-2 py-1 text-left hover:bg-gray-50"
+                    className="block w-full px-2 py-1 text-left hover:bg-muted"
                     onClick={() => {
                       setMenuOpen(false)
                       setRenaming(true)
@@ -142,7 +142,7 @@ function DocumentItem({
                   <li>
                     <button
                       type="button"
-                      className="block w-full px-2 py-1 text-left text-destructive hover:bg-gray-50"
+                      className="block w-full px-2 py-1 text-left text-destructive hover:bg-muted"
                       onClick={() => {
                         setMenuOpen(false)
                         handleDelete()
@@ -177,7 +177,7 @@ export function DocumentGallery({
     <div className="space-y-3">
       <DocumentUpload patientId={patientId} />
       {documents.length === 0 ? (
-        <p className="text-sm text-gray-500">Sin documentos.</p>
+        <p className="text-sm text-foreground/60">Sin documentos.</p>
       ) : (
         <ul className="grid grid-cols-3 gap-2">
           {documents.map((doc) => (

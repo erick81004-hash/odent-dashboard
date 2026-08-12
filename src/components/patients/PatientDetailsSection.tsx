@@ -173,7 +173,7 @@ export function PatientDetailsSection({
               setBirthDate(parseBirthDate(patient.birth_date))
               setEditing(true)
             }}
-            className="rounded border border-gray-400 px-3 py-1 text-sm"
+            className="rounded border border-border px-3 py-1 text-sm"
           >
             Editar información
           </button>
@@ -211,7 +211,7 @@ export function PatientDetailsSection({
             <div className="mt-1 flex gap-1">
               <select
                 aria-label="Día de nacimiento"
-                className="rounded border border-gray-300 px-1 py-1"
+                className="rounded border border-border px-1 py-1"
                 value={birthDate.day}
                 onChange={(e) => setBirthDate((prev) => ({ ...prev, day: e.target.value }))}
               >
@@ -224,7 +224,7 @@ export function PatientDetailsSection({
               </select>
               <select
                 aria-label="Mes de nacimiento"
-                className="rounded border border-gray-300 px-1 py-1"
+                className="rounded border border-border px-1 py-1"
                 value={birthDate.month}
                 onChange={(e) => setBirthDate((prev) => ({ ...prev, month: e.target.value }))}
               >
@@ -237,7 +237,7 @@ export function PatientDetailsSection({
               </select>
               <select
                 aria-label="Año de nacimiento"
-                className="rounded border border-gray-300 px-1 py-1"
+                className="rounded border border-border px-1 py-1"
                 value={birthDate.year}
                 onChange={(e) => setBirthDate((prev) => ({ ...prev, year: e.target.value }))}
               >
@@ -253,7 +253,7 @@ export function PatientDetailsSection({
           <label className="block">
             Sexo
             <select
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.sex}
               onChange={(e) => field('sex', e.target.value)}
             >
@@ -268,7 +268,7 @@ export function PatientDetailsSection({
           <label className="block">
             Teléfono
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.phone}
               onChange={(e) => field('phone', e.target.value)}
             />
@@ -276,7 +276,7 @@ export function PatientDetailsSection({
           <label className="block">
             Email
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.email}
               onChange={(e) => field('email', e.target.value)}
             />
@@ -284,7 +284,7 @@ export function PatientDetailsSection({
           <label className="block">
             Dirección
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.address}
               onChange={(e) => field('address', e.target.value)}
             />
@@ -295,7 +295,7 @@ export function PatientDetailsSection({
           <label className="block">
             Alergias
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.allergies}
               onChange={(e) => field('allergies', e.target.value)}
             />
@@ -303,7 +303,7 @@ export function PatientDetailsSection({
           <label className="block">
             Condiciones
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.medical_conditions}
               onChange={(e) => field('medical_conditions', e.target.value)}
             />
@@ -311,7 +311,7 @@ export function PatientDetailsSection({
           <label className="block">
             Medicamentos
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.current_medications}
               onChange={(e) => field('current_medications', e.target.value)}
             />
@@ -319,7 +319,7 @@ export function PatientDetailsSection({
           <label className="block">
             Tipo de sangre
             <select
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.blood_type}
               onChange={(e) => field('blood_type', e.target.value)}
             >
@@ -337,7 +337,7 @@ export function PatientDetailsSection({
           <label className="block">
             Teléfono de contacto de emergencia
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.emergency_contact_phone}
               onChange={(e) => field('emergency_contact_phone', e.target.value)}
             />
@@ -345,7 +345,7 @@ export function PatientDetailsSection({
           <label className="block">
             Parentesco
             <select
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.emergency_contact_relationship}
               onChange={(e) => field('emergency_contact_relationship', e.target.value)}
             >
@@ -360,7 +360,7 @@ export function PatientDetailsSection({
           <label className="block">
             Aseguradora
             <input
-              className="mt-1 block w-full rounded border border-gray-300 px-2 py-1"
+              className="mt-1 block w-full rounded border border-border px-2 py-1"
               value={form.insurance}
               onChange={(e) => field('insurance', e.target.value)}
             />
@@ -374,7 +374,7 @@ export function PatientDetailsSection({
             type="button"
             disabled={saving || deleting}
             onClick={handleSave}
-            className="rounded border border-gray-400 px-3 py-1 text-sm disabled:opacity-40"
+            className="rounded border border-border px-3 py-1 text-sm disabled:opacity-40"
           >
             Guardar
           </button>
@@ -382,7 +382,7 @@ export function PatientDetailsSection({
             type="button"
             disabled={saving || deleting}
             onClick={() => setEditing(false)}
-            className="rounded border border-gray-300 px-3 py-1 text-sm text-gray-500"
+            className="rounded border border-border px-3 py-1 text-sm text-foreground/60"
           >
             Cancelar
           </button>

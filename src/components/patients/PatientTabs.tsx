@@ -16,7 +16,7 @@ export function PatientTabs({
   active: (typeof TABS)[number]['key']
 }) {
   return (
-    <div className="flex gap-1 border-b border-gray-200">
+    <div className="flex gap-1 border-b border-border">
       {TABS.map((tab) => (
         <Link
           key={tab.key}
@@ -24,7 +24,7 @@ export function PatientTabs({
           className={`px-3 py-2 text-sm ${
             tab.key === active
               ? 'border-b-2 border-blue-600 font-medium'
-              : 'text-gray-500'
+              : 'text-foreground/60'
           }`}
         >
           {tab.label}
