@@ -23,25 +23,25 @@ describe('Sidebar', () => {
     mockUsePathname.mockReturnValue('/')
     render(<Sidebar />)
 
-    expect(screen.getByRole('link', { name: 'Inicio' })).toHaveClass('bg-sidebar-active/15')
-    expect(screen.getByRole('link', { name: 'Pacientes' })).not.toHaveClass('bg-sidebar-active/15')
-    expect(screen.getByRole('link', { name: 'Calendario' })).not.toHaveClass('bg-sidebar-active/15')
+    expect(screen.getByRole('link', { name: 'Inicio' })).toHaveClass('bg-sidebar-active-soft')
+    expect(screen.getByRole('link', { name: 'Pacientes' })).not.toHaveClass('bg-sidebar-active-soft')
+    expect(screen.getByRole('link', { name: 'Calendario' })).not.toHaveClass('bg-sidebar-active-soft')
   })
 
   it('highlights Pacientes as active on /pacientes and its subroutes', () => {
     mockUsePathname.mockReturnValue('/pacientes/nuevo')
     render(<Sidebar />)
 
-    expect(screen.getByRole('link', { name: 'Pacientes' })).toHaveClass('bg-sidebar-active/15')
-    expect(screen.getByRole('link', { name: 'Inicio' })).not.toHaveClass('bg-sidebar-active/15')
+    expect(screen.getByRole('link', { name: 'Pacientes' })).toHaveClass('bg-sidebar-active-soft')
+    expect(screen.getByRole('link', { name: 'Inicio' })).not.toHaveClass('bg-sidebar-active-soft')
   })
 
   it('highlights Calendario as active on /calendario', () => {
     mockUsePathname.mockReturnValue('/calendario')
     render(<Sidebar />)
 
-    expect(screen.getByRole('link', { name: 'Calendario' })).toHaveClass('bg-sidebar-active/15')
-    expect(screen.getByRole('link', { name: 'Inicio' })).not.toHaveClass('bg-sidebar-active/15')
+    expect(screen.getByRole('link', { name: 'Calendario' })).toHaveClass('bg-sidebar-active-soft')
+    expect(screen.getByRole('link', { name: 'Inicio' })).not.toHaveClass('bg-sidebar-active-soft')
   })
 })
 

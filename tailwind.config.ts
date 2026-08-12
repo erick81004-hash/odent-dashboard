@@ -25,6 +25,9 @@ const config: Config = {
         "sidebar-fg": "var(--color-sidebar-fg)",
         "sidebar-fg-muted": "var(--color-sidebar-fg-muted)",
         "sidebar-active": "var(--color-sidebar-active)",
+        "sidebar-active-soft": "var(--color-sidebar-active-soft)",
+        "sidebar-hairline": "var(--color-sidebar-hairline)",
+        "sidebar-chip": "var(--color-sidebar-chip)",
       },
       fontFamily: {
         heading: ["Figtree", "sans-serif"],

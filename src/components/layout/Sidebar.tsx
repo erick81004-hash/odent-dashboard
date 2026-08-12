@@ -50,7 +50,7 @@ export function Sidebar() {
               key={item.href}
               href={item.href}
               className={`block rounded-lg px-2 py-2 text-sm ${
-                isActive ? 'bg-sidebar-active/15 text-sidebar-active' : 'text-sidebar-fg'
+                isActive ? 'bg-sidebar-active-soft text-sidebar-active' : 'text-sidebar-fg'
               }`}
             >
               {item.label}
@@ -58,20 +58,20 @@ export function Sidebar() {
           )
         })}
 
-        <div className="mt-2 space-y-1 border-t border-sidebar-fg-muted/30 pt-2">
+        <div className="mt-2 space-y-1 border-t border-sidebar-hairline pt-2">
           {UPCOMING_ITEMS.map((label) => (
             <div
               key={label}
               className="flex items-center justify-between rounded-lg px-2 py-2 text-sm text-sidebar-fg-muted"
             >
               <span>{label}</span>
-              <span className="rounded-full bg-sidebar-fg-muted/20 px-1.5 py-0.5 text-[10px]">Pronto</span>
+              <span className="rounded-full bg-sidebar-chip px-1.5 py-0.5 text-[10px]">Pronto</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div className="mb-3 rounded-xl bg-sidebar-active/15 p-3">
+      <div className="mb-3 rounded-xl bg-sidebar-active-soft p-3">
         <p className="text-xs font-semibold text-sidebar-active">¿Sabías que?</p>
         <p className="mt-1 text-xs text-sidebar-fg-muted">
           El 80% de las caries se pueden prevenir con una buena higiene bucal.

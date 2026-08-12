@@ -21,8 +21,11 @@
 
   --color-sidebar-bg: #14161C;
   --color-sidebar-fg: #C7C9D1;
-  --color-sidebar-fg-muted: #6C6F7B;
+  --color-sidebar-fg-muted: #8A8D99;
   --color-sidebar-active: #2FA79B;
+  --color-sidebar-active-soft: rgba(47, 167, 155, 0.15);
+  --color-sidebar-hairline: rgba(108, 111, 123, 0.3);
+  --color-sidebar-chip: rgba(108, 111, 123, 0.2);
 }
 
 body {
