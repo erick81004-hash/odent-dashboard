@@ -20,7 +20,7 @@ export function ToothConditionPanel({
         Diente {tooth} · {toothTypeLabel(tooth)}
       </p>
       <p className="mt-1 text-xs text-foreground/60">
-        Marca o desmarca condiciones de la pieza {tooth}. Cada cambio se guarda al instante.
+        Selecciona lo que observas en esta pieza. Los cambios quedan guardados de inmediato en el expediente.
       </p>
       <ul className="mt-3 grid grid-cols-1 gap-1.5 sm:grid-cols-2">
         {TOOTH_CONDITIONS.map((condition) => {

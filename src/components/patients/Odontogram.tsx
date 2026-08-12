@@ -54,8 +54,8 @@ export function Odontogram({
   return (
     <div className="space-y-3">
       <OdontogramViewTabs active={view} onChange={setView} />
-      <div className="flex flex-col gap-3 md:flex-row md:items-start">
-        <div className="mx-auto w-full max-w-md shrink-0 rounded-xl border border-border bg-page p-4 shadow-sm">
+      <div className="flex flex-col gap-3 lg:flex-row lg:items-start">
+        <div className="w-full shrink-0 rounded-xl border border-border bg-page p-4 shadow-sm lg:max-w-3xl">
           <ToothGrid
             activeConditionsByTooth={activeConditionsByTooth}
             selected={selected}
@@ -63,7 +63,7 @@ export function Odontogram({
           />
         </div>
         {selected !== null && (
-          <div className="md:flex-1">
+          <div className="lg:flex-1">
             <ToothConditionPanel
               tooth={selected}
               activeConditions={states[selected].activeConditions}
