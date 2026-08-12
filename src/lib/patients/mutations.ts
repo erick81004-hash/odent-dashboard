@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Patient, TreatmentEvent, PatientDocument } from './types'
+import type { Patient, TreatmentEvent, PatientDocument, ToothConditionEvent } from './types'
 
 export async function createPatient(
   client: SupabaseClient,
@@ -92,4 +92,23 @@ export async function addTreatmentEvent(
     .single()
   if (error) throw error
   return data as TreatmentEvent
+}
+
+export async function toggleToothCondition(
+  client: SupabaseClient,
+  input: {
+    patient_id: string
+    tooth_number: number
+    condition_type: string
+    active: boolean
+    performed_by: string
+  }
+): Promise<ToothConditionEvent> {
+  const { data, error } = await client
+    .from('tooth_condition_events')
+    .insert(input)
+    .select()
+    .single()
+  if (error) throw error
+  return data as ToothConditionEvent
 }
