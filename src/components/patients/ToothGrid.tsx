@@ -28,6 +28,7 @@ function ToothCell({
           : 'border-border bg-page text-foreground'
       }`}
     >
+      {tooth}
       {activeCount > 1 && (
         <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-white">
           {activeCount}
