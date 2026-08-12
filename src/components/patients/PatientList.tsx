@@ -25,7 +25,7 @@ export function PatientList({
 
   return (
     <div className="flex items-start gap-8">
-      <ul className="max-w-md flex-1 divide-y divide-gray-200">
+      <ul className="max-w-md flex-1 divide-y divide-border">
         {patients.map((patient) => (
           <li key={patient.id} onMouseEnter={() => setHoveredId(patient.id)}>
             <Link
