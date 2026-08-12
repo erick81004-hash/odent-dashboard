@@ -12,13 +12,16 @@ import type { ToothConditionEvent } from '@/lib/patients/types'
 export function Odontogram({
   patientId,
   events,
+  canEdit,
 }: {
   patientId: string
   events: ToothConditionEvent[]
+  canEdit: boolean
 }) {
   const [view, setView] = useState<OdontogramView>('vestibular')
   const [selected, setSelected] = useState<number | null>(null)
   const [localEvents, setLocalEvents] = useState(events)
+  const [toggleError, setToggleError] = useState<string | null>(null)
 
   const states = deriveToothConditions(localEvents)
   const activeConditionsByTooth: Record<number, ToothConditionKey[]> = {}
@@ -27,20 +30,25 @@ export function Odontogram({
   }
 
   async function handleToggle(condition: ToothConditionKey, active: boolean) {
-    if (selected === null) return
-    const { createBrowserSupabaseClient } = await import('@/lib/supabase/client')
-    const { toggleToothCondition } = await import('@/lib/patients/mutations')
-    const client = createBrowserSupabaseClient()
-    const { data: userData } = await client.auth.getUser()
-    if (!userData.user) return
-    const event = await toggleToothCondition(client, {
-      patient_id: patientId,
-      tooth_number: selected,
-      condition_type: condition,
-      active,
-      performed_by: userData.user.id,
-    })
-    setLocalEvents((prev) => [...prev, event])
+    if (selected === null || !canEdit) return
+    setToggleError(null)
+    try {
+      const { createBrowserSupabaseClient } = await import('@/lib/supabase/client')
+      const { toggleToothCondition } = await import('@/lib/patients/mutations')
+      const client = createBrowserSupabaseClient()
+      const { data: userData } = await client.auth.getUser()
+      if (!userData.user) return
+      const event = await toggleToothCondition(client, {
+        patient_id: patientId,
+        tooth_number: selected,
+        condition_type: condition,
+        active,
+        performed_by: userData.user.id,
+      })
+      setLocalEvents((prev) => [...prev, event])
+    } catch {
+      setToggleError('No se pudo guardar el cambio. Intenta de nuevo.')
+    }
   }
 
   return (
@@ -60,7 +68,9 @@ export function Odontogram({
               tooth={selected}
               activeConditions={states[selected].activeConditions}
               onToggle={handleToggle}
+              disabled={!canEdit}
             />
+            {toggleError && <p className="mt-2 text-xs text-destructive">{toggleError}</p>}
           </div>
         )}
       </div>

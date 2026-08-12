@@ -20,7 +20,7 @@ function ToothCell({
       data-testid={`tooth-${tooth}`}
       onClick={() => onSelect(tooth)}
       aria-label={`Diente ${tooth}, ${activeCount} condiciones activas`}
-      className={`relative flex h-10 w-10 flex-col items-center justify-center rounded-full border text-xs font-medium ${
+      className={`relative flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-full border text-xs font-medium ${
         selected ? 'ring-2 ring-primary' : ''
       } ${
         activeCount > 0
@@ -49,27 +49,31 @@ export function ToothGrid({
 }) {
   return (
     <div className="space-y-3">
-      <div className="flex justify-center gap-1.5">
-        {UPPER_ROW_FDI.map((tooth) => (
-          <ToothCell
-            key={tooth}
-            tooth={tooth}
-            activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
-            selected={selected === tooth}
-            onSelect={onSelect}
-          />
-        ))}
+      <div className="overflow-x-auto">
+        <div className="flex justify-center gap-1.5">
+          {UPPER_ROW_FDI.map((tooth) => (
+            <ToothCell
+              key={tooth}
+              tooth={tooth}
+              activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
+              selected={selected === tooth}
+              onSelect={onSelect}
+            />
+          ))}
+        </div>
       </div>
-      <div className="flex justify-center gap-1.5">
-        {LOWER_ROW_FDI.map((tooth) => (
-          <ToothCell
-            key={tooth}
-            tooth={tooth}
-            activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
-            selected={selected === tooth}
-            onSelect={onSelect}
-          />
-        ))}
+      <div className="overflow-x-auto">
+        <div className="flex justify-center gap-1.5">
+          {LOWER_ROW_FDI.map((tooth) => (
+            <ToothCell
+              key={tooth}
+              tooth={tooth}
+              activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
+              selected={selected === tooth}
+              onSelect={onSelect}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

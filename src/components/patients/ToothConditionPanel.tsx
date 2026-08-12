@@ -7,10 +7,12 @@ export function ToothConditionPanel({
   tooth,
   activeConditions,
   onToggle,
+  disabled = false,
 }: {
   tooth: number
   activeConditions: ToothConditionKey[]
   onToggle: (condition: ToothConditionKey, active: boolean) => void
+  disabled?: boolean
 }) {
   return (
     <div className="rounded-xl border border-border bg-page p-4 shadow-sm">
@@ -29,6 +31,7 @@ export function ToothConditionPanel({
                 <input
                   type="checkbox"
                   checked={checked}
+                  disabled={disabled}
                   onChange={(e) => onToggle(condition.key, e.target.checked)}
                 />
                 {condition.label}

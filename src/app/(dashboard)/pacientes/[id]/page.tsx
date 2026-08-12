@@ -43,6 +43,7 @@ export default async function PatientProfilePage({
   const profile = await getCurrentProfile(client)
   const canDeleteDocuments = profile?.role === 'admin' || profile?.role === 'doctor'
   const canDeletePatient = profile?.role === 'admin'
+  const canEditOdontogram = profile?.role === 'admin' || profile?.role === 'doctor'
   const photoUrls = await getPatientPhotoUrls(client, [patient])
   const cargos = await listCargosForPatient(client, id)
   const pagosByCargo = await listPagosForCargos(client, cargos.map((c) => c.id))
@@ -72,7 +73,9 @@ export default async function PatientProfilePage({
         />
       )}
 
-      {activeTab === 'odontograma' && <Odontogram patientId={id} events={toothConditionEvents} />}
+      {activeTab === 'odontograma' && (
+        <Odontogram patientId={id} events={toothConditionEvents} canEdit={canEditOdontogram} />
+      )}
       {activeTab === 'historial' && <TreatmentHistoryList patientId={id} events={events} />}
       {activeTab === 'documentos' && (
         <DocumentGallery
