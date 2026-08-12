@@ -20,7 +20,7 @@ function ToothCell({
       data-testid={`tooth-${tooth}`}
       onClick={() => onSelect(tooth)}
       aria-label={`Diente ${tooth}, ${activeCount} condiciones activas`}
-      className={`relative flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-full border text-xs font-medium ${
+      className={`relative flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full border text-xs font-medium ${
         selected ? 'ring-2 ring-primary' : ''
       } ${
         activeCount > 0
@@ -38,6 +38,34 @@ function ToothCell({
   )
 }
 
+function ToothRow({
+  teeth,
+  activeConditionsByTooth,
+  selected,
+  onSelect,
+}: {
+  teeth: number[]
+  activeConditionsByTooth: Record<number, ToothConditionKey[]>
+  selected: number | null
+  onSelect: (tooth: number) => void
+}) {
+  return (
+    <div className="overflow-x-auto">
+      <div className="mx-auto flex w-max gap-1">
+        {teeth.map((tooth) => (
+          <ToothCell
+            key={tooth}
+            tooth={tooth}
+            activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
+            selected={selected === tooth}
+            onSelect={onSelect}
+          />
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function ToothGrid({
   activeConditionsByTooth,
   selected,
@@ -47,34 +75,14 @@ export function ToothGrid({
   selected: number | null
   onSelect: (tooth: number) => void
 }) {
+  const rowProps = { activeConditionsByTooth, selected, onSelect }
   return (
-    <div className="space-y-3">
-      <div className="overflow-x-auto">
-        <div className="mx-auto flex w-max gap-1.5">
-          {UPPER_ROW_FDI.map((tooth) => (
-            <ToothCell
-              key={tooth}
-              tooth={tooth}
-              activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
-              selected={selected === tooth}
-              onSelect={onSelect}
-            />
-          ))}
-        </div>
-      </div>
-      <div className="overflow-x-auto">
-        <div className="mx-auto flex w-max gap-1.5">
-          {LOWER_ROW_FDI.map((tooth) => (
-            <ToothCell
-              key={tooth}
-              tooth={tooth}
-              activeCount={activeConditionsByTooth[tooth]?.length ?? 0}
-              selected={selected === tooth}
-              onSelect={onSelect}
-            />
-          ))}
-        </div>
-      </div>
+    <div className="space-y-2">
+      <ToothRow teeth={UPPER_ROW_FDI.slice(0, 8)} {...rowProps} />
+      <ToothRow teeth={UPPER_ROW_FDI.slice(8, 16)} {...rowProps} />
+      <div className="my-1 border-t border-border/60" />
+      <ToothRow teeth={LOWER_ROW_FDI.slice(0, 8)} {...rowProps} />
+      <ToothRow teeth={LOWER_ROW_FDI.slice(8, 16)} {...rowProps} />
     </div>
   )
 }
