@@ -8,7 +8,7 @@ describe('ToothGrid', () => {
     expect(screen.getAllByTestId(/^tooth-/)).toHaveLength(32)
   })
 
-  it('shows a count badge only when a tooth has 2+ active conditions', () => {
+  it('shows a count badge whenever a tooth has active conditions', () => {
     render(
       <ToothGrid
         activeConditionsByTooth={{ 11: ['caries'], 12: ['caries', 'movilidad'] }}
@@ -16,8 +16,8 @@ describe('ToothGrid', () => {
         onSelect={vi.fn()}
       />
     )
+    expect(screen.queryByText('1', { selector: 'span' })).toBeInTheDocument()
     expect(screen.queryByText('2', { selector: 'span' })).toBeInTheDocument()
-    expect(screen.queryByText('1', { selector: 'span' })).not.toBeInTheDocument()
   })
 
   it('calls onSelect with the clicked tooth number', () => {

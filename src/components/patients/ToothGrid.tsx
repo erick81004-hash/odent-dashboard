@@ -20,20 +20,20 @@ function ToothCell({
       data-testid={`tooth-${tooth}`}
       onClick={() => onSelect(tooth)}
       aria-label={`Diente ${tooth}, ${activeCount} condiciones activas`}
-      className={`relative flex h-9 w-9 shrink-0 flex-col items-center justify-center rounded-full border text-xs font-medium ${
-        selected ? 'ring-2 ring-primary' : ''
-      } ${
-        activeCount > 0
-          ? 'border-primary bg-primary text-on-primary'
-          : 'border-border bg-page text-foreground'
+      className={`relative flex shrink-0 flex-col items-center gap-0.5 rounded-lg p-1 ${
+        selected ? 'bg-primary/10 ring-2 ring-primary' : ''
       }`}
     >
-      {tooth}
-      {activeCount > 1 && (
-        <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-white">
-          {activeCount}
-        </span>
-      )}
+      <div className="relative">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={`/teeth/pieza/${tooth}.png`} alt="" className="h-14 w-auto" />
+        {activeCount > 0 && (
+          <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-destructive text-[10px] text-white">
+            {activeCount}
+          </span>
+        )}
+      </div>
+      <span className="text-[10px] font-medium text-foreground">{tooth}</span>
     </button>
   )
 }
@@ -78,11 +78,10 @@ export function ToothGrid({
   const rowProps = { activeConditionsByTooth, selected, onSelect }
   return (
     <div className="space-y-2">
-      <ToothRow teeth={UPPER_ROW_FDI.slice(0, 8)} {...rowProps} />
-      <ToothRow teeth={UPPER_ROW_FDI.slice(8, 16)} {...rowProps} />
+      <p className="text-center text-[10px] text-foreground/40">Desliza para ver todos los dientes →</p>
+      <ToothRow teeth={UPPER_ROW_FDI} {...rowProps} />
       <div className="my-1 border-t border-border/60" />
-      <ToothRow teeth={LOWER_ROW_FDI.slice(0, 8)} {...rowProps} />
-      <ToothRow teeth={LOWER_ROW_FDI.slice(8, 16)} {...rowProps} />
+      <ToothRow teeth={LOWER_ROW_FDI} {...rowProps} />
     </div>
   )
 }
