@@ -74,7 +74,7 @@ export function TreatmentHistoryList({
           <label className="block text-xs">
             Tipo
             <select
-              className="mt-1 block w-full rounded border border-border px-2 py-1 text-sm"
+              className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-sm text-foreground"
               value={treatmentType}
               onChange={(e) => setTreatmentType(e.target.value)}
             >
@@ -88,7 +88,7 @@ export function TreatmentHistoryList({
           <label className="block text-xs">
             Notas
             <textarea
-              className="mt-1 block w-full rounded border border-border px-2 py-1 text-sm"
+              className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-sm text-foreground"
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
             />

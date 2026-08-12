@@ -56,7 +56,7 @@ function DocumentItem({
         {renaming ? (
           <div className="flex-1 space-y-1">
             <input
-              className="w-full rounded border border-border px-1 py-0.5 text-xs"
+              className="w-full rounded border border-border bg-page px-1 py-0.5 text-xs text-foreground"
               value={name}
               onChange={(e) => setName(e.target.value)}
               disabled={busy}

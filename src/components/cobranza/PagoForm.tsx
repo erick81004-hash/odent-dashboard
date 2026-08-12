@@ -39,7 +39,7 @@ export function PagoForm({
           type="number"
           min="0"
           step="50"
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}
         />
@@ -47,7 +47,7 @@ export function PagoForm({
       <label className="block text-sm">
         Método
         <select
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={metodo}
           onChange={(e) => setMetodo(e.target.value as MetodoPago)}
         >
@@ -61,7 +61,7 @@ export function PagoForm({
       <label className="block text-sm">
         Nota
         <input
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={nota}
           onChange={(e) => setNota(e.target.value)}
         />

@@ -33,7 +33,7 @@ export function PatientForm({
       <label className="block text-sm">
         Nombre completo
         <input
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={fullName}
           onChange={(e) => setFullName(e.target.value)}
         />
@@ -41,7 +41,7 @@ export function PatientForm({
       <label className="block text-sm">
         Teléfono
         <input
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
         />
@@ -49,7 +49,7 @@ export function PatientForm({
       <label className="block text-sm">
         Alergias
         <input
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={allergies}
           onChange={(e) => setAllergies(e.target.value)}
         />

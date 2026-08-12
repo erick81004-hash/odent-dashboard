@@ -29,7 +29,7 @@ export function LoginForm({
         Correo
         <input
           type="email"
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
         />
@@ -38,7 +38,7 @@ export function LoginForm({
         Contraseña
         <input
           type="password"
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />

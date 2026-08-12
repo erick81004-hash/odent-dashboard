@@ -99,7 +99,7 @@ export function CitaForm({
         Paciente
         <div className="mt-1 flex gap-2">
           <input
-            className="block w-full rounded border border-border px-2 py-1"
+            className="block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
             value={patientQuery}
             placeholder="Buscar paciente por nombre"
             onChange={(e) => {
@@ -139,7 +139,7 @@ export function CitaForm({
       <label className="block text-sm">
         Doctor
         <select
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={doctorId}
           onChange={(e) => setDoctorId(e.target.value)}
         >
@@ -154,7 +154,7 @@ export function CitaForm({
         Fecha y hora
         <input
           type="datetime-local"
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={startsAt}
           onChange={(e) => setStartsAt(e.target.value)}
         />
@@ -162,7 +162,7 @@ export function CitaForm({
       <label className="block text-sm">
         Duración
         <select
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={duration}
           onChange={(e) => setDuration(Number(e.target.value))}
         >
@@ -176,7 +176,7 @@ export function CitaForm({
       <label className="block text-sm">
         Motivo
         <input
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={reason}
           onChange={(e) => setReason(e.target.value)}
         />

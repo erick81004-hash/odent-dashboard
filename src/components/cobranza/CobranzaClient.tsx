@@ -91,7 +91,7 @@ export function CobranzaClient({
           value={filterQuery}
           onChange={(e) => setFilterQuery(e.target.value)}
           placeholder="Buscar por paciente, concepto o monto"
-          className="w-full max-w-sm rounded border border-border px-2 py-1 text-sm"
+          className="w-full max-w-sm rounded border border-border bg-page px-2 py-1 text-sm text-foreground"
         />
         <button
           type="button"

@@ -45,7 +45,7 @@ export function CargoForm({
         <label className="block text-sm">
           Paciente
           <input
-            className="mt-1 block w-full rounded border border-border px-2 py-1"
+            className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
             value={patientQuery}
             placeholder="Buscar paciente por nombre"
             onChange={(e) => {
@@ -76,7 +76,7 @@ export function CargoForm({
       <label className="block text-sm">
         Concepto
         <select
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={concepto}
           onChange={(e) => setConcepto(e.target.value)}
         >
@@ -96,7 +96,7 @@ export function CargoForm({
           type="number"
           min="0"
           step="50"
-          className="mt-1 block w-full rounded border border-border px-2 py-1"
+          className="mt-1 block w-full rounded border border-border bg-page px-2 py-1 text-foreground"
           value={monto}
           onChange={(e) => setMonto(e.target.value)}
         />
